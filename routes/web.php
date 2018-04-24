@@ -15,15 +15,15 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('/');
 /*文章列表页*/
 Route::get("/posts","PostController@list")->name('posts.list');
 /* 文章详情页*/
 Route::get("/posts/{post}","PostController@info")->name('posts.info');
 /*创建文章*/
-Route::get("/posts/create","PostController@create")->name("posts.create");
+Route::get('/post/create','PostController@create')->name('posts.create');
 /*添加文章*/
-Route::post("/posts","PostController@add")->name('posts.create');
+Route::post("/posts","PostController@add")->name('posts.add');
 //编辑文章
 Route::get('/posts/{post}/edit',"PostController@edit")->name("posts.edit");
 Route::put("/posts/{post}","PostController@update")->name("posts.edit");
