@@ -1,7 +1,6 @@
 @extends("layouts.default")
 @section("title",$post->title)
 @section("content")
-    <div class="row">
     <div class="col-sm-8 blog-main">
         <div class="blog-post">
             <div style="display:inline-flex">
@@ -12,9 +11,10 @@
                 </a>
 
 
-                <a style="margin: auto" href="/posts/{{$post->id}}/delete">
+                <a style="margin: auto" href="{{route('posts.delete',compact('post'))}}">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </a>
+
 
             </div>
 
@@ -67,6 +67,5 @@
         </div>
 
     </div><!-- /.blog-main -->
-    @include('layouts.sidebar')
-    </div>
+
 @stop

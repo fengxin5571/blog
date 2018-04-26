@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -8,7 +7,7 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta name="csrf-token" content="MESUY3topeHgvFqsy9EcM916UWQq6khiGHM91wHy">
+    <meta name="csrf-token" content="{{csrf_token()}}">
 
 
     <title>laravel for blog-@yield('title')</title>
@@ -35,15 +34,18 @@
 @include("layouts._header")
 
 
-
 <div class="container">
     @include("errors._error")
     <div class="blog-header">
     </div>
-@section("content")
-@show
+    <div class="row">
+        @section("content")
+        @show
+        @include("layouts.sidebar")
+    </div>
 </div>
 @include('layouts._footer')
+
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

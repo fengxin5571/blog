@@ -2,7 +2,7 @@
 @section("title",'添加文章')
 @section('content')
 
-        <div class="row">
+
 
             <div class="col-sm-8 blog-main">
                 <form action="{{route('posts.add')}}" method="POST">
@@ -24,6 +24,6 @@
 
 
 
-            @include('layouts.sidebar')
-        </div>    </div><!-- /.row -->
+
+
 @stop

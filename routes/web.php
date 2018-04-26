@@ -13,9 +13,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('/');
+//用户模块
+Route::prefix("users")->group(function(){
+    //用户注册
+    Route::get("register","UserController@index")->name("users.register");
+    Route::post('register',"UserController@register")->name('users.register');
+});
 /*文章列表页*/
 Route::get("/posts","PostController@list")->name('posts.list');
 /* 文章详情页*/
@@ -28,4 +31,6 @@ Route::post("/posts","PostController@add")->name('posts.add');
 Route::get('/posts/{post}/edit',"PostController@edit")->name("posts.edit");
 Route::put("/posts/{post}","PostController@update")->name("posts.edit");
 //删除文章
-Route::delete("/posts/{post}/del","PostController@delete")->name('posts.delete');
+Route::get("/posts/{post}/del","PostController@delete")->name('posts.delete');
+//文章图片上上传
+Route::post('/posts/image/upload','PostController@upload');

@@ -2,7 +2,6 @@
 @section('title',"文章列表")
 @section("content")
 
-        <div class="row">
             <div class="col-sm-8 blog-main">
                 <div>
                     <div id="carousel-example" class="carousel slide" data-ride="carousel">
@@ -51,8 +50,5 @@
 
                 </div><!-- /.blog-main -->
             </div>
-            @include("layouts.sidebar")
 
-        </div>
-    </div><!-- /.row -->
 @stop

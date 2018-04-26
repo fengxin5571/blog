@@ -35,15 +35,26 @@ class PostController extends Controller
         return redirect()->route("posts.list");
     }
     //编辑文章页面
-    public  function edit(){
-        echo '123';
+    public  function edit(Post $post){
+        return view('posts.edit',compact('post'));
     }
     //更新文章
-    public  function update(){
-        
+    public  function update(Post $post,Request $request){
+        $data=$this->validatete($request,[
+           'title'=>'required|String|max:10',
+           'content'=>'required'
+        ]);
+        $post->update($data);
+        return redirect()->route('posts.info',compact('post'));
     }
     //删除文章
-    public function delete(){
-        
+    public function delete(Post $post){
+        Post::destroy($post->id);
+        return redirect()->route('posts.list');
+    }
+    //图片上传
+    public function upload(Request $request){
+        $path=$request->file('wangEditorH5File')->store(1);
+        return asset('storage/'.$path);
     }
 }
