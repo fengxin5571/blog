@@ -2,7 +2,7 @@
     <div class="container">
         <ul class="nav navbar-nav navbar-left">
             <li>
-                <a class="blog-nav-item " href="{{route('/')}}">首页</a>
+                <a class="blog-nav-item " href="">首页</a>
             </li>
             <li>
                 <a class="blog-nav-item" href="{{route('posts.create')}}">写文章</a>
@@ -17,19 +17,25 @@
                 <button class="btn btn-default" style="margin-top:10px" type="submit">Go!</button>
             </li>
         </ul>
-
+        
         <ul class="nav navbar-nav navbar-right">
+        @if(Auth::check())
             <li class="dropdown">
                 <div>
                     <img src="/storage/9f0b0809fd136c389c20f949baae3957/iBkvipBCiX6cHitZSdTaXydpen5PBiul7yYCc88O.jpeg" alt="" class="img-rounded" style="border-radius:500px; height: 30px">
                     <a href="#" class="blog-nav-item dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kassandra Ankunding2  <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/5">我的主页</a></li>
+                        <li><a href="{{route('users.home',compact('user'))}}">我的主页</a></li>
                         <li><a href="/user/5/setting">个人设置</a></li>
                         <li><a href="/logout">登出</a></li>
                     </ul>
                 </div>
             </li>
+        @else
+        <li><a href="{{route("users.login")}}"}>登录</a></li>
+        <li><a href="{{route("users.register")}}">注册</a></li>
+        @endif
         </ul>
+        
     </div>
 </div>

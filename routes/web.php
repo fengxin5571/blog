@@ -18,6 +18,10 @@ Route::prefix("users")->group(function(){
     //用户注册
     Route::get("register","UserController@index")->name("users.register");
     Route::post('register',"UserController@register")->name('users.register');
+    //用户登录
+    Route::match(['get','post'],"login","UserController@login")->name("users.login");
+    //用户中心
+    Route::get('center/{user}',"UserController@center")->name("users.home");
 });
 /*文章列表页*/
 Route::get("/posts","PostController@list")->name('posts.list');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -23,5 +24,16 @@ class UserController extends Controller
             'email'=>$request->email,
             'password'=>bcrypt($request->password)
         ]);
+    }
+    //用户登录
+    public function login(Request $request){
+        
+        if($request->isMethod("post")){//如果是post提交
+        }
+        return view("users.login");
+    }
+    //用户中心
+    public function center(User $user){
+        
     }
 }
