@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 /*
  * 文章控制器
  */
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware("auth",['except'=>['list','info']]);
+    }
+
     //文章列表
     public function list(){
         $posts=Post::orderBy("created_at",'desc')->paginate(10);
@@ -40,15 +47,17 @@ class PostController extends Controller
     }
     //更新文章
     public  function update(Post $post,Request $request){
-        $data=$this->validatete($request,[
-           'title'=>'required|String|max:10',
-           'content'=>'required'
+        $data=$this->validate($request,[
+            'title'=>'required|max:10',
+            'content'=>'required'
         ]);
+        $this->authorize('update',$post);
         $post->update($data);
         return redirect()->route('posts.info',compact('post'));
     }
     //删除文章
     public function delete(Post $post){
+        $this->authorize('update',$post);
         Post::destroy($post->id);
         return redirect()->route('posts.list');
     }

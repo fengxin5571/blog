@@ -40,6 +40,7 @@
                         <h2 class="blog-post-title"><a href="{{route('posts.info',compact('post'))}}">{{$post->title}}</a></h2>
                         <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}} <a href="/user/5">{{$post->title}}</a></p>
                         <p class="blog-post-meta">{{$post->created_at->diffForHumans()}} </p>
+                        <p class="blog-post-meta">{{$post->user->name}} </p>
                         <p>{!! str_limit($post->content,120,"...") !!}
                         <p class="blog-post-meta">赞 0 | 评论 0</p>
                     </div>

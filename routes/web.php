@@ -19,7 +19,9 @@ Route::prefix("users")->group(function(){
     Route::get("register","UserController@index")->name("users.register");
     Route::post('register',"UserController@register")->name('users.register');
     //用户登录
-    Route::match(['get','post'],"login","UserController@login")->name("users.login");
+    Route::match(['get','post'],"login","UserController@login")->name("login");
+    //用户登出
+    Route::get('/logout',"UserController@logout")->name("users.logout");
     //用户中心
     Route::get('center/{user}',"UserController@center")->name("users.home");
 });

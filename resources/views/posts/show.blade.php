@@ -5,7 +5,7 @@
         <div class="blog-post">
             <div style="display:inline-flex">
                 <h2 class="blog-post-title">{{$post->title}}</h2>
-
+                @can('update',$post)
                 <a style="margin: auto" href="/posts/{{$post->id}}/edit">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 </a>
@@ -14,11 +14,10 @@
                 <a style="margin: auto" href="{{route('posts.delete',compact('post'))}}">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </a>
-
-
+                @endcan
             </div>
 
-            <p class="blog-post-meta"> by <a href="#"></a></p>
+            <p class="blog-post-meta"> by <a href="#">{{$post->user->name}}</a></p>
 
             <p>{!! $post->content !!}</p>
             <div>
