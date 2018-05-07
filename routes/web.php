@@ -24,8 +24,13 @@ Route::prefix("users")->group(function(){
     Route::get('/logout',"UserController@logout")->name("users.logout");
     //用户中心
     Route::get('/center/{user}',"UserController@center")->name("users.home");
+    //关注
     Route::post('/user/{user}/fan','UserController@fan')->name('users.fan');
+    //取消关注
     Route::post('/user/{user}/unfan','UserController@unfan')->name('users.unfan');
+    //用户设置
+    Route::get('/user/seting/{user}','UserController@userseting')->name('users.seting');
+    Route::post('/user/seting/{user}','UserController@userseting')->name('users.seting');
 });
 /*文章列表页*/
 Route::get("/posts","PostController@list")->name('posts.list');

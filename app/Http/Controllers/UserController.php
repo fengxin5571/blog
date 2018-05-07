@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +11,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth',['only'=>['center','fan','unfan']]);
+        $this->middleware('auth',['only'=>['center','fan','unfan','userseting']]);
         $this->middleware('guest',['only'=>['index','login']]);
     }
 
@@ -56,6 +57,33 @@ class UserController extends Controller
         //dd($stars[0]->stars()->count());
         $fans=$user->fans()->paginate(10);
         return view('users.home',compact('user','posts','stars','fans'));
+    }
+    //用户设置
+    public function userseting(Request $request,User $user){
+
+        if($request->isMethod('post')){
+            $this->validate($request,[
+                'name'=>'required|min:3'
+            ]);
+            $name=$request->input('name');
+            if($name!=$user->name){
+                if(User::where('name',$name)->count()){
+                    return redirect()->back()->withErrors('此姓名已经有人注册了');
+                }
+            }
+            $data=array(
+                'name'=>$name,
+            );
+            if($request->file('avatar')){
+                $path=$request->file('avatar')->storeAs('avatar/'.$user->id,md5(Carbon::now()).'.'.$request->file('avatar')->getClientOriginalExtension());
+                $data['avatar']='storage/'.$path;
+            }
+            $user->update($data);
+            return redirect()->route('users.home',compact('user'));
+
+
+        }
+        return view('users.seting',compact('user'));
     }
     //用户登出
     public function logout(){
