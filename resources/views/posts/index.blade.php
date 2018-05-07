@@ -38,11 +38,11 @@
                     @foreach($posts as $post)
                     <div class="blog-post">
                         <h2 class="blog-post-title"><a href="{{route('posts.info',compact('post'))}}">{{$post->title}}</a></h2>
-                        <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}} <a href="/user/5">{{$post->title}}</a></p>
+                        <p class="blog-post-meta">{{$post->created_at->toFormattedDateString()}} <a href="{{route('posts.info',$post)}}">{{$post->title}}</a></p>
                         <p class="blog-post-meta">{{$post->created_at->diffForHumans()}} </p>
-                        <p class="blog-post-meta">{{$post->user->name}} </p>
+                        <p class="blog-post-meta"><a href="{{route('users.home',$post->user)}}">{{$post->user->name}}</a> </p>
                         <p>{!! str_limit($post->content,120,"...") !!}
-                        <p class="blog-post-meta">赞 0 | 评论 0</p>
+                        <p class="blog-post-meta">赞 {{$post->zans_count}}| 评论 {{$post->comments_count}}</p>
                     </div>
                     @endforeach
 
