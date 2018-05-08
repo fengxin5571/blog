@@ -48,4 +48,18 @@ class Post extends Authenticatable
     public function zans(){
         return $this->hasMany(Zan::class,"post_id",'id');
     }
+    public function postTopics(){
+        return $this->hasMany(PostTopic::class,'post_id',"id");
+    }
+    //属于某个作者的文章
+    public function scopeAuthorBy($query,$user_id){//本地查询作用域
+        return $query->where('user_id',$user_id);
+    }
+    //不属于某个专题的文章
+    public function scopeTopicNot($query,$topic_id){
+        return $query->doesntHave('postTopics','and',function ($q)use ($topic_id){//不存在的关联查询
+            $q->where('topic_id',$topic_id);
+        });
+
+    }
 }

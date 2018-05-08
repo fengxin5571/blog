@@ -57,3 +57,14 @@ Route::get("/posts/zan/{post}","PostController@zan")->name('posts.zan');
 Route::get('/posts/unzan/{post}','PostController@unzan')->name('posts.unzan');
 //文章搜索
 Route::get('posts/search','PostController@search')->name("posts.search");
+//专题
+Route::prefix('topic')->group(function (){
+    //专题首页
+    Route::get('/{topic}','TopicController@index')->name('topic.info');
+    //投稿
+    Route::post('/submit/{topic}','TopicController@submit')->name('topic.submit');
+});
+
+
+
+
