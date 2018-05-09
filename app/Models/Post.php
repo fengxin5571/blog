@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Scout\Searchable;
@@ -23,7 +25,12 @@ class Post extends Authenticatable
     {
         return 'post';
     }
-
+    public static function boot(){
+        parent::boot();
+        static::addGlobalScope('scuess_status',function (Builder $builder){
+            $builder->where('status','=','1');
+        });
+    }
     // 定义有那些字段需要搜索
     public function toSearchableArray()
     {

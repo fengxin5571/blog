@@ -64,7 +64,7 @@ Route::prefix('topic')->group(function (){
     //投稿
     Route::post('/submit/{topic}','TopicController@submit')->name('topic.submit');
 });
-
+//require_once('admin.php');
 
 
 

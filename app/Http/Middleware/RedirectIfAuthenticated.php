@@ -18,7 +18,8 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect()->route('posts.list');
+            $path=$guard?'admin.home':'posts.list';
+            return redirect()->route($path);
         }
 
         return $next($request);
