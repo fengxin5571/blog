@@ -7,10 +7,39 @@
  */
 namespace App\admin\Controllers;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 class PostController extends Controller{
     public function index(){
-        $posts=Post::withoutGlobalScope('scuess_status')->where('status',0)->orderBy('created_at','decs')->paginate(10);
-        return view('admin.posts.index',compact('posts'));
+        $posts=Post::withoutGlobalScope('scuess_status')->where('status',0)->orderBy('created_at','esc')->paginate(5);
+        $flag=0;
+        return view('admin.posts.index',compact('posts','flag'));
+    }
+    //文章审核
+    public function status(Request $request,$post_id){
+        $post=Post::withoutGlobalScope("scuess_status")->find($post_id);
+        $response=array();
+        $this->validate($request,[
+            'status'=>'required'
+        ]);
+
+        if($post->update(['status'=>$request->status])){
+            $response=array('error'=>0,'message'=>'操作成功');
+        }else{
+            $response=array('error'=>1,'message'=>'操作失败');
+        }
+        return response()->json($response);
+    }
+    //通过文章
+    public  function scuess_status(){
+        $posts=Post::paginate(5);
+        $flag=1;
+        return view('admin.posts.index',compact('posts','flag'));
+    }
+    //未通过文章
+    public function unscuess_status(){
+        $posts=Post::withoutGlobalScope('scuess_status')->where('status','2')->paginate(5);
+        $flag=3;
+        return view('admin.posts.index',compact('posts','flag'));
     }
 }

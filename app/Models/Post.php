@@ -18,7 +18,7 @@ class Post extends Authenticatable
     use Searchable;
     //
     protected  $fillable=[
-        'title','content',"user_id"
+        'title','content',"user_id",'status'
     ];
 
     public function searchableAs()

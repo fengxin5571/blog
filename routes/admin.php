@@ -21,8 +21,13 @@ Route::prefix('admin')->group(function (){
         Route::get('/users/add','UserController@add')->name('admin.users.add');
         Route::post('/users/add','UserController@add')->name('admin.users.add');
         //文章管理
-        Route::get('/posts','PostController@index')->name('admin.pots');
-
+        Route::get('/posts','PostController@index')->name('admin.posts');
+        //文章审核
+        Route::post('/posts/{post_id}/status','PostController@status')->name('admin.posts.status');
+        //已通过文章
+        Route::get('/posts/status/1','PostController@scuess_status')->name('admin.posts.status.1');
+        //未通过文章
+        Route::get('/posts/status/2','PostController@unscuess_status')->name('admin.posts.status.2');
     });
 
 
