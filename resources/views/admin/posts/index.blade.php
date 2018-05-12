@@ -27,6 +27,7 @@
                                     @case(0)
                                         <button type="button" class="btn btn-block btn-default post-audit" post-id="{{$post->id}}" post-action-status="1" >通过</button>
                                         <button type="button" class="btn btn-block btn-default post-audit" post-id="{{$post->id}}" post-action-status="2" >拒绝</button>
+                                        <button type="button" class="btn btn-block btn-default post-audit" post-id="{{$post->id}}" post-action-status="3" >删除</button>
                                         @break
                                     @case(1)
                                         <button type="button" class="btn btn-block btn-default post-audit" post-id="{{$post->id}}" post-action-status="0" >未处理</button>

@@ -12,7 +12,7 @@ Route::prefix('admin')->group(function (){
     Route::post('/login','LoginController@login')->name('admin.login');
     //登出
     Route::get('/logout','LoginController@logout')->name('admin.logout');
-    Route::group(['middleware'=>'auth:admin'],function(){
+    Route::group(['middleware'=>'admin_auth:admin'],function(){
         //首页
         Route::get('/home','HomeController@home')->name('admin.home');
         //管理人员模块
@@ -28,6 +28,12 @@ Route::prefix('admin')->group(function (){
         Route::get('/posts/status/1','PostController@scuess_status')->name('admin.posts.status.1');
         //未通过文章
         Route::get('/posts/status/2','PostController@unscuess_status')->name('admin.posts.status.2');
+        //删除文章
+        Route::post('/posts/{post_id}/del','PostController@delete')->name('admin.posts.del');
+        //已删除文章
+        Route::get('/posts/del','PostController@delList')->name('admin.posts.del.list');
+        //恢复文章
+        Route::post('/posts/{post_id}/restore','PostController@restore')->name('admin.post.restore');
     });
 
 

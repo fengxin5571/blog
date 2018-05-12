@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Scout\Searchable;
@@ -16,11 +17,12 @@ class Post extends Authenticatable
 {
     use Notifiable;
     use Searchable;
+    use SoftDeletes;
     //
     protected  $fillable=[
         'title','content',"user_id",'status'
     ];
-
+    protected $dates=['deleted_at'];
     public function searchableAs()
     {
         return 'post';

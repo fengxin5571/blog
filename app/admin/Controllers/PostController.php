@@ -42,4 +42,24 @@ class PostController extends Controller{
         $flag=3;
         return view('admin.posts.index',compact('posts','flag'));
     }
+    //删除文章
+    public function delete($post_id){
+        $post=Post::withoutGlobalScope('scuess_status')->find($post_id);
+        if($post->delete()){
+            $response=array('error'=>0,'message'=>'操作成功');
+        }else{
+            $response=array('error'=>1,'message'=>'操作失败');
+        }
+        return response()->json($response);
+    }
+    public function delList(){
+        $posts = Post::withoutGlobalScope('scuess_status')->onlyTrashed()->get();
+        return view('admin.posts.del',compact('posts'));
+    }
+    public function restore($post_id){
+        $post=Post::withoutGlobalScope('scuess_status')->onlyTrashed()->where('id',$post_id);
+        $post->restore();
+        return response()->json(['error'=>0,'message'=>'操作成功']);
+
+    }
 }

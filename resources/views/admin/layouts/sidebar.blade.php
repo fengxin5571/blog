@@ -21,6 +21,7 @@
             <ul class="treeview-menu">
                 <li><a href="{{route('admin.posts.status.1')}}"><i class="fa fa-circle-o"></i> 已通过文章</a></li>
                 <li><a href="{{route('admin.posts.status.2')}}"><i class="fa fa-circle-o"></i> 未通过文章</a></li>
+                <li><a href="{{route('admin.posts.del.list')}}"><i class="fa fa-circle-o"></i> 已删除文章</a></li>
             </ul>
         </li>
         <li class="active treeview">
