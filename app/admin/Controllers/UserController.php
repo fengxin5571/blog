@@ -7,6 +7,7 @@
  */
 namespace App\admin\Controllers;
 
+use App\Models\AdminRole;
 use App\Models\AdminUser;
 use Illuminate\Http\Request;
 
@@ -31,5 +32,17 @@ class UserController extends Controller{
 
         }
         return view('admin.users.add');
+    }
+    //用户角色管理
+    public function role(Request $request,AdminUser $admin){
+        if($request->isMethod('post')){
+            $this->validate($request,[
+                'roles'=>'required|array'
+            ],['roles.required'=>'请至少选择一个权限']);
+            $admin->assigeRole($request->roles);
+            return redirect()->route('admin.users');
+        }
+        $roles=AdminRole::all();
+        return view('admin.users.role',compact('roles','admin'));
     }
 }

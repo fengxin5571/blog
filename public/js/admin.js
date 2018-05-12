@@ -1,5 +1,5 @@
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-$(':button[name!="restore"]').click(function () {
+$(':button[name!="restore"][type!="submit"]').click(function () {
     var post_id=$(this).attr('post-id');
     var status=$(this).attr('post-action-status');
     var url="/admin/posts/"+post_id+'/status';
@@ -22,7 +22,7 @@ $(':button[name!="restore"]').click(function () {
        }
    });
 });
-$(":button[name='restore']").click(function () {
+$(":button[name='restore'][type!='submit']").click(function () {
     var post_id=$(this).attr('post-id');
     var url="/admin/posts/"+post_id+'/restore';
     $.ajax({

@@ -17,6 +17,8 @@ Route::prefix('admin')->group(function (){
         Route::get('/home','HomeController@home')->name('admin.home');
         //管理人员模块
         Route::get('/users','UserController@index')->name('admin.users');
+        //用户角色管理
+        Route::match(['get','post'],'/users/{adminuser}/role','UserController@role')->name('admin.users.role');
         //增加用户
         Route::get('/users/add','UserController@add')->name('admin.users.add');
         Route::post('/users/add','UserController@add')->name('admin.users.add');
@@ -34,6 +36,16 @@ Route::prefix('admin')->group(function (){
         Route::get('/posts/del','PostController@delList')->name('admin.posts.del.list');
         //恢复文章
         Route::post('/posts/{post_id}/restore','PostController@restore')->name('admin.post.restore');
+        //角色列表
+        Route::get('/roles','RoleController@list')->name('admin.roles');
+        //创建角色
+        Route::match(['post','get'],'/roles/add','RoleController@add')->name('admin.roles.add');
+        //角色权限
+        Route::get('/roles/{adminrole}/permission','RoleController@rolePermission')->name('admin.role.permission');
+        //权限列表
+        Route::get('/permissions','PermissionController@list')->name('admin.permisssion');
+        //创建权限
+        Route::match(['post','get'],'/permission/add','PermissionController@add')->name('admin.permission.add');
     });
 
 
