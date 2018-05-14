@@ -31,8 +31,15 @@ class RoleController extends Controller{
         return view('admin.roles.add');
     }
     //角色权限
-    public function rolePermission(AdminRole $role){
+    public function rolePermission(Request $request,AdminRole $role){
+        if($request->isMethod('post')){
+            $this->validate($request,[
+                'permissions'=>'required|array'
+            ],['permissions.required'=>'请至少选择一项权限']);
+            $role->assigePermission($request->permissions);
+            return redirect()->route('admin.roles');
+        }
         $permissions=AdminPermission::all();
-        return view('admin.roles.permission');
+        return view('admin.roles.permission',compact('permissions','role'));
     }
 }

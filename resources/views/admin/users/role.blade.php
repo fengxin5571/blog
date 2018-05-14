@@ -17,12 +17,14 @@
                             {{csrf_field()}}
                             <div class="form-group">
                                 @foreach($roles as $role)
+
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="roles[]"
                                                @if($admin->isInroles($role))
-                                                       checked
-                                                       @endif
+
+                                               checked
+                                               @endif
                                                value="{{$role->id}}">
                                         {{$role->name}}
                                     </label>

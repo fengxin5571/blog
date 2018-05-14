@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AdminRole;
 use App\Models\AdminUser;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -28,6 +29,7 @@ class RouteServiceProvider extends ServiceProvider
 
         parent::boot();
         Route::model('adminuser',AdminUser::class);
+        Route::model('adminrole',AdminRole::class);
     }
 
     /**

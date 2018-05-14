@@ -11,7 +11,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">权限列表</h3>
                     </div>
-                    <a type="button" class="btn " href="/admin/permissions/create" >增加权限</a>
+                    <a type="button" class="btn " href="{{route('admin.permission.add')}}" >增加权限</a>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">
@@ -21,34 +21,15 @@
                                 <th>描述</th>
                                 <th>操作</th>
                             </tr>
+                            @foreach($permissions as $permission)
                             <tr>
-                                <td>1.</td>
-                                <td>system</td>
-                                <td>系统管理</td>
+                                <td>{{$permission->id}}.</td>
+                                <td>{{$permission->name}}</td>
+                                <td>{{$permission->description}}</td>
                                 <td>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>post</td>
-                                <td>文章管理</td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>topic</td>
-                                <td>专题管理</td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4.</td>
-                                <td>notice</td>
-                                <td>通知管理</td>
-                                <td>
-                                </td>
-                            </tr>
+                           @endforeach
                             </tbody></table>
                     </div>
 

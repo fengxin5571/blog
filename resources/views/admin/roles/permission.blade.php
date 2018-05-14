@@ -13,40 +13,28 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <form action="/admin/roles/1/permission" method="POST">
-                            <input type="hidden" name="_token" value="RPPMc0lhvtynKELDZljXlz9UZI9uNc55ip1P8GCM">
+                        <form action="{{route('admin.role.permission',$role)}}" method="POST">
+                            {{csrf_field()}}
                             <div class="form-group">
+                                @foreach($permissions as $permission)
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="permissions[]"
-                                               checked
-                                               value="1">
-                                        system
+                                               @if($role->hasPermission($permission))
+                                                checked
+                                               @endif
+                                               value="{{$permission->id}}">
+                                        {{$permission->name}} -{{$permission->description}}
                                     </label>
                                 </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="permissions[]"
-                                               checked
-                                               value="2">
-                                        post
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="permissions[]"
-                                               value="3">
-                                        topic
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="permissions[]"
-                                               value="4">
-                                        notice
-                                    </label>
-                                </div>
+                                @endforeach
+
                             </div>
+                            @if($errors->first('permissions'))
+                                <div class="alert alert-danger" role="alert">
+                                    {{$errors->first('permissions')}}
+                                </div>
+                            @endif
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary">提交</button>
                             </div>

@@ -13,15 +13,15 @@ class AdminRole extends Model
     }
     //角色赋予权限
     public function assigePermission($permission){
-        return $this->permissions()->save($permission);
+        return $this->permissions()->sync($permission);
 
     }
     //取消角色权限
     public function deletePermission($permission){
         return $this->permissions()->detach($permission);
     }
-    //判断角色是否又权限
+    //判断角色是否有权限
     public function hasPermission($permission){
-        return $this->permissions()->contains($permission);
+        return $this->permissions->contains($permission);
     }
 }

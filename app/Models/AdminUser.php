@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
+
 class AdminUser extends Authenticatable
 {
-
+    use Notifiable;
     //后台管理用户模型
     protected $fillable=['name','password'];
     protected $hidden=['password','remember_token'];
@@ -16,7 +19,13 @@ class AdminUser extends Authenticatable
     }
     //是否有某些角色
     public function isInroles($roles){
-        return $this->roles->contains($roles);
+        if($roles instanceof Collection){
+            return $this->roles->intersect($roles)->count();
+
+        }else{
+            return $this->roles->contains($roles);
+        }
+
     }
     //给用户分配角色
     public function assigeRole($roles){
@@ -28,6 +37,6 @@ class AdminUser extends Authenticatable
     }
     //用户是否有权限
     public function hasPermission($permission){
-       return $this->isInroles($permission->roles());
+       return $this->isInroles($permission->roles);
     }
 }
