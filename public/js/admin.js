@@ -42,3 +42,26 @@ $(":button[name='restore'][type!='submit']").click(function () {
         }
     });
 });
+$(".resource-delete").click(function () {
+    if(confirm('确定要删除么？')==false){
+        return;
+    }
+    var url=$(this).attr('delete-url');
+    var topic_id=$(this).attr('topic_id');
+    $.ajax({
+        url: url,
+        method:'delete',
+        dataType:'json',
+        success: function (data) {
+            if(data.error){
+                alert(data.message);
+                return;
+            }
+            alert(data.message);
+            $('#'+topic_id).remove();
+        },
+        error:function (data) {
+            alert('系统异常');
+        }
+    });
+});

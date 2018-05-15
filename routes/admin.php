@@ -5,17 +5,17 @@
  * Date: 2018/5/8
  * Time: 上午10:44
  */
-
+Route::redirect('/admin/','/admin/home',301);
 Route::prefix('admin')->group(function (){
     //登陆
     Route::get('/login','LoginController@login')->name('admin.login');
     Route::post('/login','LoginController@login')->name('admin.login');
     //登出
     Route::get('/logout','LoginController@logout')->name('admin.logout');
-    Route::group(['middleware'=>'admin_auth'],function(){
+    Route::group(['middleware'=>'auth:admin'],function(){
         //首页
         Route::get('/home','HomeController@home')->name('admin.home');
-//        Route::group(['middleware'=>"can:system"],function (){
+        Route::group(['middleware'=>"can:system"],function (){
             //管理人员模块
             Route::get('/users','UserController@index')->name('admin.users');
             //用户角色管理
@@ -33,8 +33,8 @@ Route::prefix('admin')->group(function (){
             Route::get('/permissions','PermissionController@list')->name('admin.permisssion');
             //创建权限
             Route::match(['post','get'],'/permission/add','PermissionController@add')->name('admin.permission.add');
-//        });
-//        Route::group(['middleware'=>'can:post'],function (){
+        });
+        Route::group(['middleware'=>'can:post'],function (){
             //文章管理
             Route::get('/posts','PostController@index')->name('admin.posts');
             //文章审核
@@ -49,7 +49,15 @@ Route::prefix('admin')->group(function (){
             Route::get('/posts/del','PostController@delList')->name('admin.posts.del.list');
             //恢复文章
             Route::post('/posts/{post_id}/restore','PostController@restore')->name('admin.post.restore');
-//        });
+        });
+        Route::group(['middleware'=>'can:topic'],function (){
+            //专题管理
+            Route::get('/topics','TopicController@index')->name('admin.topics.index');
+            //增加专题
+            Route::match(['post','get'],'/topics/add','TopicController@add')->name('admin.topics.add');
+            //删除专题
+            Route::delete('/topics/{topic}/del','TopicController@delete')->name('admin.topics.del');
+        });
 
 
     });

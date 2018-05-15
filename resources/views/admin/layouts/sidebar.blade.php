@@ -6,7 +6,7 @@
 
             <li class="treeview active">
 
-                @if(\Illuminate\Support\Facades\Auth::guard('admin')->user()->can('system'))
+                @can('system')
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>系统管理</span>
                     <span class="pull-right-container"></span>
@@ -17,8 +17,8 @@
                     <li><a href="{{route('admin.roles')}}"><i class="fa fa-circle-o"></i> 角色管理</a></li>
                 </ul>
             </li>
-            @endif
-            @if(\Illuminate\Support\Facades\Auth::guard('admin')->user()->can('post'))
+            @endcan
+            @can('post')
             <li class="active treeview">
                 <a href="/admin/posts">
                     <i class="fa fa-dashboard"></i> <span>文章管理</span>
@@ -29,20 +29,20 @@
                     <li><a href="{{route('admin.posts.del.list')}}"><i class="fa fa-circle-o"></i> 已删除文章</a></li>
                 </ul>
             </li>
-            @endif
-            @if(\Illuminate\Support\Facades\Auth::guard('admin')->user()->can('topic'))
+            @endcan
+            @can('topic')
             <li class="active treeview">
-                <a href="/admin/topics">
+                <a href="{{route('admin.topics.index')}}">
                     <i class="fa fa-dashboard"></i> <span>专题管理</span>
                 </a>
             </li>
-            @endif
-            @if(\Illuminate\Support\Facades\Auth::guard('admin')->user()->can('notice'))
+            @endcan
+            @can('notice')
             <li class="active treeview">
                 <a href="/admin/notices">
                     <i class="fa fa-dashboard"></i> <span>通知管理</span>
                 </a>
             </li>
-            @endif
+            @endcan
     </ul>
 </section>

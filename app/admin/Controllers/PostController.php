@@ -46,35 +46,35 @@ class PostController extends Controller{
     }
     //未通过文章
     public function unscuess_status(){
-        if(Gate::forUser(Auth::guard('admin')->user())->allows('post')) {
-            $posts = Post::withoutGlobalScope('scuess_status')->where('status', '2')->paginate(5);
-            $flag = 3;
-            return view('admin.posts.index', compact('posts', 'flag'));
-        }
+
+        $posts = Post::withoutGlobalScope('scuess_status')->where('status', '2')->paginate(5);
+        $flag = 3;
+        return view('admin.posts.index', compact('posts', 'flag'));
+
     }
     //删除文章
     public function delete($post_id){
-        if(Gate::forUser(Auth::guard('admin')->user())->allows('post')) {
-            $post = Post::withoutGlobalScope('scuess_status')->find($post_id);
-            if ($post->delete()) {
-                $response = array('error' => 0, 'message' => '操作成功');
-            } else {
-                $response = array('error' => 1, 'message' => '操作失败');
-            }
-            return response()->json($response);
+
+        $post = Post::withoutGlobalScope('scuess_status')->find($post_id);
+        if ($post->delete()) {
+            $response = array('error' => 0, 'message' => '操作成功');
+        } else {
+            $response = array('error' => 1, 'message' => '操作失败');
         }
+        return response()->json($response);
+
     }
     public function delList(){
-        if(Gate::forUser(Auth::guard('admin')->user())->allows('post')) {
-            $posts = Post::withoutGlobalScope('scuess_status')->onlyTrashed()->get();
-            return view('admin.posts.del', compact('posts'));
-        }
+
+        $posts = Post::withoutGlobalScope('scuess_status')->onlyTrashed()->get();
+        return view('admin.posts.del', compact('posts'));
+
     }
     public function restore($post_id){
-        if(Gate::forUser(Auth::guard('admin')->user())->allows('post')) {
-            $post = Post::withoutGlobalScope('scuess_status')->onlyTrashed()->where('id', $post_id);
-            $post->restore();
-            return response()->json(['error' => 0, 'message' => '操作成功']);
-        }
+
+        $post = Post::withoutGlobalScope('scuess_status')->onlyTrashed()->where('id', $post_id);
+        $post->restore();
+        return response()->json(['error' => 0, 'message' => '操作成功']);
+
     }
 }
