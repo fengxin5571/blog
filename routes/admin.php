@@ -57,6 +57,10 @@ Route::prefix('admin')->group(function (){
             Route::match(['post','get'],'/topics/add','TopicController@add')->name('admin.topics.add');
             //删除专题
             Route::delete('/topics/{topic}/del','TopicController@delete')->name('admin.topics.del');
+            //通知管理
+            Route::get('/notices','NoticeController@index')->name('admin.notices');
+            //增加通知
+            Route::match(['get','post'],'/notices/add','NoticeController@add')->name('admin.notices.add');
         });
 
 

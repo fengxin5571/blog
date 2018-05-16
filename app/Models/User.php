@@ -58,5 +58,12 @@ class User extends Authenticatable
     public function isFan($user_id){
         return $this->stars->contains($user_id);
     }
-
+    //用户收到的通知
+    public  function notices(){
+        return $this->belongsToMany(Notice::class,'user_notice','user_id','notice_id')->withPivot('user_id','notice_id');
+    }
+    //用户增加通知
+    public function addNotice($notice){
+        return $this->notices()->save($notice);
+    }
 }

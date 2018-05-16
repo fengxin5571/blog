@@ -9,7 +9,7 @@
                 <a class="blog-nav-item" href="{{route('posts.create')}}">写文章</a>
             </li>
             <li>
-                <a class="blog-nav-item" href="/notices">通知</a>
+                <a class="blog-nav-item" href="{{route('notices')}}">通知</a>
             </li>
 
             <li>
