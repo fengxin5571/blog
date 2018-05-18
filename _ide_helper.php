@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.40 on 2018-05-15 11:39:48.
+ * Generated for Laravel 5.5.40 on 2018-05-18 09:39:58.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -6350,7 +6350,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function size($queue = null)
         {
-            return \Illuminate\Queue\SyncQueue::size($queue);
+            return \Illuminate\Queue\DatabaseQueue::size($queue);
         }
         
         /**
@@ -6360,12 +6360,11 @@ namespace Illuminate\Support\Facades {
          * @param mixed $data
          * @param string $queue
          * @return mixed 
-         * @throws \Exception|\Throwable
          * @static 
          */ 
         public static function push($job, $data = '', $queue = null)
         {
-            return \Illuminate\Queue\SyncQueue::push($job, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
         }
         
         /**
@@ -6379,7 +6378,7 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function pushRaw($payload, $queue = null, $options = array())
         {
-            return \Illuminate\Queue\SyncQueue::pushRaw($payload, $queue, $options);
+            return \Illuminate\Queue\DatabaseQueue::pushRaw($payload, $queue, $options);
         }
         
         /**
@@ -6389,12 +6388,40 @@ namespace Illuminate\Support\Facades {
          * @param string $job
          * @param mixed $data
          * @param string $queue
-         * @return mixed 
+         * @return void 
          * @static 
          */ 
         public static function later($delay, $job, $data = '', $queue = null)
         {
-            return \Illuminate\Queue\SyncQueue::later($delay, $job, $data, $queue);
+            \Illuminate\Queue\DatabaseQueue::later($delay, $job, $data, $queue);
+        }
+        
+        /**
+         * Push an array of jobs onto the queue.
+         *
+         * @param array $jobs
+         * @param mixed $data
+         * @param string $queue
+         * @return mixed 
+         * @static 
+         */ 
+        public static function bulk($jobs, $data = '', $queue = null)
+        {
+            return \Illuminate\Queue\DatabaseQueue::bulk($jobs, $data, $queue);
+        }
+        
+        /**
+         * Release a reserved job back onto the queue.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
+         * @param int $delay
+         * @return mixed 
+         * @static 
+         */ 
+        public static function release($queue, $job, $delay)
+        {
+            return \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
         }
         
         /**
@@ -6402,11 +6429,49 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $queue
          * @return \Illuminate\Contracts\Queue\Job|null 
+         * @throws \Exception|\Throwable
          * @static 
          */ 
         public static function pop($queue = null)
         {
-            return \Illuminate\Queue\SyncQueue::pop($queue);
+            return \Illuminate\Queue\DatabaseQueue::pop($queue);
+        }
+        
+        /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @throws \Exception|\Throwable
+         * @static 
+         */ 
+        public static function deleteReserved($queue, $id)
+        {
+            \Illuminate\Queue\DatabaseQueue::deleteReserved($queue, $id);
+        }
+        
+        /**
+         * Get the queue or return the default.
+         *
+         * @param string|null $queue
+         * @return string 
+         * @static 
+         */ 
+        public static function getQueue($queue)
+        {
+            return \Illuminate\Queue\DatabaseQueue::getQueue($queue);
+        }
+        
+        /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */ 
+        public static function getDatabase()
+        {
+            return \Illuminate\Queue\DatabaseQueue::getDatabase();
         }
         
         /**
@@ -6421,7 +6486,7 @@ namespace Illuminate\Support\Facades {
         public static function pushOn($queue, $job, $data = '')
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::pushOn($queue, $job, $data);
+            return \Illuminate\Queue\DatabaseQueue::pushOn($queue, $job, $data);
         }
         
         /**
@@ -6437,22 +6502,7 @@ namespace Illuminate\Support\Facades {
         public static function laterOn($queue, $delay, $job, $data = '')
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::laterOn($queue, $delay, $job, $data);
-        }
-        
-        /**
-         * Push an array of jobs onto the queue.
-         *
-         * @param array $jobs
-         * @param mixed $data
-         * @param string $queue
-         * @return mixed 
-         * @static 
-         */ 
-        public static function bulk($jobs, $data = '', $queue = null)
-        {
-            //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::bulk($jobs, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::laterOn($queue, $delay, $job, $data);
         }
         
         /**
@@ -6465,7 +6515,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobExpiration($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::getJobExpiration($job);
+            return \Illuminate\Queue\DatabaseQueue::getJobExpiration($job);
         }
         
         /**
@@ -6477,7 +6527,7 @@ namespace Illuminate\Support\Facades {
         public static function getConnectionName()
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::getConnectionName();
+            return \Illuminate\Queue\DatabaseQueue::getConnectionName();
         }
         
         /**
@@ -6490,7 +6540,7 @@ namespace Illuminate\Support\Facades {
         public static function setConnectionName($name)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            return \Illuminate\Queue\SyncQueue::setConnectionName($name);
+            return \Illuminate\Queue\DatabaseQueue::setConnectionName($name);
         }
         
         /**
@@ -6503,7 +6553,7 @@ namespace Illuminate\Support\Facades {
         public static function setContainer($container)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-            \Illuminate\Queue\SyncQueue::setContainer($container);
+            \Illuminate\Queue\DatabaseQueue::setContainer($container);
         }
          
     }
@@ -12318,6 +12368,1092 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace Toplan\PhpSms\Facades { 
+
+    class Sms {
+        
+        /**
+         * Bootstrap the task.
+         *
+         * @static 
+         */ 
+        public static function bootTask()
+        {
+            return \Toplan\PhpSms\Sms::bootTask();
+        }
+        
+        /**
+         * Get the task instance.
+         *
+         * @return \Toplan\PhpSms\Task 
+         * @static 
+         */ 
+        public static function getTask()
+        {
+            return \Toplan\PhpSms\Sms::getTask();
+        }
+        
+        /**
+         * Get the agent instance by name.
+         *
+         * @param string $name
+         * @param array $options
+         * @throws PhpSmsException
+         * @return \Toplan\PhpSms\Agent 
+         * @static 
+         */ 
+        public static function getAgent($name, $options = array())
+        {
+            return \Toplan\PhpSms\Sms::getAgent($name, $options);
+        }
+        
+        /**
+         * Whether has the specified agent.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasAgent($name)
+        {
+            return \Toplan\PhpSms\Sms::hasAgent($name);
+        }
+        
+        /**
+         * Set or get the dispatch scheme.
+         *
+         * @param string|array|null $name
+         * @param string|array|bool|null $scheme
+         * @param bool $override
+         * @return mixed 
+         * @static 
+         */ 
+        public static function scheme($name = null, $scheme = null, $override = false)
+        {
+            return \Toplan\PhpSms\Sms::scheme($name, $scheme, $override);
+        }
+        
+        /**
+         * Set or get the configuration information.
+         *
+         * @param string|array|null $name
+         * @param array|bool|null $config
+         * @param bool $override
+         * @throws PhpSmsException
+         * @return array 
+         * @static 
+         */ 
+        public static function config($name = null, $config = null, $override = false)
+        {
+            return \Toplan\PhpSms\Sms::config($name, $config, $override);
+        }
+        
+        /**
+         * Tear down scheme.
+         *
+         * @static 
+         */ 
+        public static function cleanScheme()
+        {
+            return \Toplan\PhpSms\Sms::cleanScheme();
+        }
+        
+        /**
+         * Tear down config information.
+         *
+         * @static 
+         */ 
+        public static function cleanConfig()
+        {
+            return \Toplan\PhpSms\Sms::cleanConfig();
+        }
+        
+        /**
+         * Create a instance for send sms.
+         *
+         * @param mixed $agentName
+         * @param mixed $tempId
+         * @return \Toplan\PhpSms\Sms 
+         * @static 
+         */ 
+        public static function make($agentName = null, $tempId = null)
+        {
+            return \Toplan\PhpSms\Sms::make($agentName, $tempId);
+        }
+        
+        /**
+         * Create a instance for send voice.
+         *
+         * @param int|string|null $code
+         * @return \Toplan\PhpSms\Sms 
+         * @static 
+         */ 
+        public static function voice($code = null)
+        {
+            return \Toplan\PhpSms\Sms::voice($code);
+        }
+        
+        /**
+         * Set whether to use the queue system,
+         * and define how to use it.
+         *
+         * @param bool|\Closure|null $enable
+         * @param \Closure|null $handler
+         * @return bool 
+         * @static 
+         */ 
+        public static function queue($enable = null, $handler = null)
+        {
+            return \Toplan\PhpSms\Sms::queue($enable, $handler);
+        }
+        
+        /**
+         * Set the type of Sms instance.
+         *
+         * @param $type
+         * @throws PhpSmsException
+         * @return $this 
+         * @static 
+         */ 
+        public static function type($type)
+        {
+            return \Toplan\PhpSms\Sms::type($type);
+        }
+        
+        /**
+         * Set the recipient`s mobile number.
+         *
+         * @param string|array $mobile
+         * @return $this 
+         * @static 
+         */ 
+        public static function to($mobile)
+        {
+            return \Toplan\PhpSms\Sms::to($mobile);
+        }
+        
+        /**
+         * Set the sms content.
+         *
+         * @param string $content
+         * @return $this 
+         * @static 
+         */ 
+        public static function content($content)
+        {
+            return \Toplan\PhpSms\Sms::content($content);
+        }
+        
+        /**
+         * Set the template ids.
+         *
+         * @param mixed $name
+         * @param mixed $tempId
+         * @return $this 
+         * @static 
+         */ 
+        public static function template($name, $tempId = null)
+        {
+            return \Toplan\PhpSms\Sms::template($name, $tempId);
+        }
+        
+        /**
+         * Set the template data.
+         *
+         * @param mixed $key
+         * @param mixed $value
+         * @return $this 
+         * @static 
+         */ 
+        public static function data($key, $value = null)
+        {
+            return \Toplan\PhpSms\Sms::data($key, $value);
+        }
+        
+        /**
+         * Set the voice code.
+         *
+         * @param string|int $code
+         * @return $this 
+         * @static 
+         */ 
+        public static function code($code)
+        {
+            return \Toplan\PhpSms\Sms::code($code);
+        }
+        
+        /**
+         * Set voice file.
+         *
+         * @param string|array $name
+         * @param string|int $id
+         * @return $this 
+         * @static 
+         */ 
+        public static function file($name, $id = null)
+        {
+            return \Toplan\PhpSms\Sms::file($name, $id);
+        }
+        
+        /**
+         * Set params of agent.
+         *
+         * @param string|array $name
+         * @param array|bool|null $params
+         * @param bool $override
+         * @return $this 
+         * @static 
+         */ 
+        public static function params($name, $params = null, $override = false)
+        {
+            return \Toplan\PhpSms\Sms::params($name, $params, $override);
+        }
+        
+        /**
+         * Set the first agent.
+         *
+         * @param string $name
+         * @throws PhpSmsException
+         * @return $this 
+         * @static 
+         */ 
+        public static function agent($name)
+        {
+            return \Toplan\PhpSms\Sms::agent($name);
+        }
+        
+        /**
+         * Start send.
+         * 
+         * If call with a `true` parameter, this system will immediately start request to send sms whatever whether to use the queue.
+         * if the current instance has pushed to the queue, you can recall this method in queue system without any parameter,
+         * so this mechanism in order to make you convenient to use this method in queue system.
+         *
+         * @param bool $immediately
+         * @return mixed 
+         * @static 
+         */ 
+        public static function send($immediately = false)
+        {
+            return \Toplan\PhpSms\Sms::send($immediately);
+        }
+        
+        /**
+         * Push to the queue system.
+         *
+         * @throws \Exception | PhpSmsException
+         * @return mixed 
+         * @static 
+         */ 
+        public static function push()
+        {
+            return \Toplan\PhpSms\Sms::push();
+        }
+        
+        /**
+         * Get all of the data.
+         *
+         * @param null|string $key
+         * @return mixed 
+         * @static 
+         */ 
+        public static function all($key = null)
+        {
+            return \Toplan\PhpSms\Sms::all($key);
+        }
+         
+    }
+ 
+}
+
+namespace Toplan\Sms\Facades { 
+
+    class SmsManager {
+        
+        /**
+         * 验证是否可发送
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function validateSendable()
+        {
+            return \Toplan\Sms\SmsManager::validateSendable();
+        }
+        
+        /**
+         * 验证数据
+         *
+         * @param mixed $input
+         * @param \Closure|null $validation
+         * @return array 
+         * @static 
+         */ 
+        public static function validateFields($input = null, $validation = null)
+        {
+            return \Toplan\Sms\SmsManager::validateFields($input, $validation);
+        }
+        
+        /**
+         * 请求验证码短信
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function requestVerifySms()
+        {
+            return \Toplan\Sms\SmsManager::requestVerifySms();
+        }
+        
+        /**
+         * 请求语音验证码
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function requestVoiceVerify()
+        {
+            return \Toplan\Sms\SmsManager::requestVoiceVerify();
+        }
+        
+        /**
+         * 获取当前的发送状态(非持久化的)
+         *
+         * @param string|int|null $key
+         * @param mixed $default
+         * @return mixed 
+         * @static 
+         */ 
+        public static function state($key = null, $default = null)
+        {
+            return \Toplan\Sms\SmsManager::state($key, $default);
+        }
+        
+        /**
+         * 获取客户端数据
+         *
+         * @param string|int|null $key
+         * @param mixed $default
+         * @return mixed 
+         * @static 
+         */ 
+        public static function input($key = null, $default = null)
+        {
+            return \Toplan\Sms\SmsManager::input($key, $default);
+        }
+        
+        /**
+         * 更新发送状态
+         *
+         * @param string|array $name
+         * @param mixed $value
+         * @static 
+         */ 
+        public static function updateState($name, $value = null)
+        {
+            return \Toplan\Sms\SmsManager::updateState($name, $value);
+        }
+        
+        /**
+         * 从存储器中获取发送状态
+         *
+         * @param string|null $name
+         * @return array 
+         * @static 
+         */ 
+        public static function retrieveState($name = null)
+        {
+            return \Toplan\Sms\SmsManager::retrieveState($name);
+        }
+        
+        /**
+         * 从存储器中删除发送状态
+         *
+         * @static 
+         */ 
+        public static function forgetState()
+        {
+            return \Toplan\Sms\SmsManager::forgetState();
+        }
+        
+        /**
+         * 设置多少秒后才能再次请求
+         *
+         * @param int $interval
+         * @return int 
+         * @static 
+         */ 
+        public static function setCanResendAfter($interval)
+        {
+            return \Toplan\Sms\SmsManager::setCanResendAfter($interval);
+        }
+        
+        /**
+         * 从存储器中获取可再次发送的截止时间
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function getCanResendTime()
+        {
+            return \Toplan\Sms\SmsManager::getCanResendTime();
+        }
+        
+        /**
+         * 存储指定字段的指定名称的动态验证规则
+         *
+         * @param string $field
+         * @param string $name
+         * @param string|null $rule
+         * @throws LaravelSmsException
+         * @static 
+         */ 
+        public static function storeRule($field, $name, $rule = null)
+        {
+            return \Toplan\Sms\SmsManager::storeRule($field, $name, $rule);
+        }
+        
+        /**
+         * 从存储器中获取指定字段的指定名称的动态验证规则
+         *
+         * @param string $field
+         * @param string|null $name
+         * @return string|null 
+         * @static 
+         */ 
+        public static function retrieveRule($field, $name = null)
+        {
+            return \Toplan\Sms\SmsManager::retrieveRule($field, $name);
+        }
+        
+        /**
+         * 从存储中获取指定字段的所有验证规则
+         *
+         * @param string $field
+         * @return array 
+         * @static 
+         */ 
+        public static function retrieveRules($field)
+        {
+            return \Toplan\Sms\SmsManager::retrieveRules($field);
+        }
+        
+        /**
+         * 从存储器中删除指定字段的指定名称的动态验证规则
+         *
+         * @param string $field
+         * @param string|null $name
+         * @static 
+         */ 
+        public static function forgetRule($field, $name = null)
+        {
+            return \Toplan\Sms\SmsManager::forgetRule($field, $name);
+        }
+        
+        /**
+         * 从存储中获取指定字段的所有验证规则
+         *
+         * @param string $field
+         * @return array 
+         * @static 
+         */ 
+        public static function forgetRules($field)
+        {
+            return \Toplan\Sms\SmsManager::forgetRules($field);
+        }
+        
+        /**
+         * 从存储器中获取用户的所有数据
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function retrieveAllData()
+        {
+            return \Toplan\Sms\SmsManager::retrieveAllData();
+        }
+        
+        /**
+         * 合成结果数组
+         * 
+         * todo 改为抛出异常,然后在控制器中catch
+         *
+         * @param bool $pass
+         * @param string $type
+         * @param string $message
+         * @param array $data
+         * @return array 
+         * @static 
+         */ 
+        public static function generateResult($pass, $type, $message = '', $data = array())
+        {
+            return \Toplan\Sms\SmsManager::generateResult($pass, $type, $message, $data);
+        }
+        
+        /**
+         * 序列化闭包
+         *
+         * @param \Closure $closure
+         * @return string 
+         * @static 
+         */ 
+        public static function closure($closure)
+        {
+            return \Toplan\Sms\SmsManager::closure($closure);
+        }
+         
+    }
+ 
+}
+
+namespace Barryvdh\Debugbar { 
+
+    class Facade {
+        
+        /**
+         * Enable the Debugbar and boot, if not already booted.
+         *
+         * @static 
+         */ 
+        public static function enable()
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::enable();
+        }
+        
+        /**
+         * Boot the debugbar (add collectors, renderer and listener)
+         *
+         * @static 
+         */ 
+        public static function boot()
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::boot();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function shouldCollect($name, $default = false)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::shouldCollect($name, $default);
+        }
+        
+        /**
+         * Adds a data collector
+         *
+         * @param \Barryvdh\Debugbar\DataCollectorInterface $collector
+         * @throws DebugBarException
+         * @return $this 
+         * @static 
+         */ 
+        public static function addCollector($collector)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::addCollector($collector);
+        }
+        
+        /**
+         * Handle silenced errors
+         *
+         * @param $level
+         * @param $message
+         * @param string $file
+         * @param int $line
+         * @param array $context
+         * @throws \ErrorException
+         * @static 
+         */ 
+        public static function handleError($level, $message, $file = '', $line = 0, $context = array())
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::handleError($level, $message, $file, $line, $context);
+        }
+        
+        /**
+         * Starts a measure
+         *
+         * @param string $name Internal name, used to stop the measure
+         * @param string $label Public name
+         * @static 
+         */ 
+        public static function startMeasure($name, $label = null)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::startMeasure($name, $label);
+        }
+        
+        /**
+         * Stops a measure
+         *
+         * @param string $name
+         * @static 
+         */ 
+        public static function stopMeasure($name)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::stopMeasure($name);
+        }
+        
+        /**
+         * Adds an exception to be profiled in the debug bar
+         *
+         * @param \Exception $e
+         * @deprecated in favor of addThrowable
+         * @static 
+         */ 
+        public static function addException($e)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::addException($e);
+        }
+        
+        /**
+         * Adds an exception to be profiled in the debug bar
+         *
+         * @param \Exception $e
+         * @static 
+         */ 
+        public static function addThrowable($e)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::addThrowable($e);
+        }
+        
+        /**
+         * Returns a JavascriptRenderer for this instance
+         *
+         * @param string $baseUrl
+         * @param string $basePathng
+         * @return \Barryvdh\Debugbar\JavascriptRenderer 
+         * @static 
+         */ 
+        public static function getJavascriptRenderer($baseUrl = null, $basePath = null)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::getJavascriptRenderer($baseUrl, $basePath);
+        }
+        
+        /**
+         * Modify the response and inject the debugbar (or data in headers)
+         *
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @param \Symfony\Component\HttpFoundation\Response $response
+         * @return \Symfony\Component\HttpFoundation\Response 
+         * @static 
+         */ 
+        public static function modifyResponse($request, $response)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::modifyResponse($request, $response);
+        }
+        
+        /**
+         * Check if the Debugbar is enabled
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function isEnabled()
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::isEnabled();
+        }
+        
+        /**
+         * Collects the data from the collectors
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function collect()
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::collect();
+        }
+        
+        /**
+         * Injects the web debug toolbar into the given Response.
+         *
+         * @param \Symfony\Component\HttpFoundation\Response $response A Response instance
+         * Based on https://github.com/symfony/WebProfilerBundle/blob/master/EventListener/WebDebugToolbarListener.php
+         * @static 
+         */ 
+        public static function injectDebugbar($response)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::injectDebugbar($response);
+        }
+        
+        /**
+         * Disable the Debugbar
+         *
+         * @static 
+         */ 
+        public static function disable()
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::disable();
+        }
+        
+        /**
+         * Adds a measure
+         *
+         * @param string $label
+         * @param float $start
+         * @param float $end
+         * @static 
+         */ 
+        public static function addMeasure($label, $start, $end)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::addMeasure($label, $start, $end);
+        }
+        
+        /**
+         * Utility function to measure the execution of a Closure
+         *
+         * @param string $label
+         * @param \Closure $closure
+         * @static 
+         */ 
+        public static function measure($label, $closure)
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::measure($label, $closure);
+        }
+        
+        /**
+         * Collect data in a CLI request
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function collectConsole()
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::collectConsole();
+        }
+        
+        /**
+         * Adds a message to the MessagesCollector
+         * 
+         * A message can be anything from an object to a string
+         *
+         * @param mixed $message
+         * @param string $label
+         * @static 
+         */ 
+        public static function addMessage($message, $label = 'info')
+        {
+            return \Barryvdh\Debugbar\LaravelDebugbar::addMessage($message, $label);
+        }
+        
+        /**
+         * Checks if a data collector has been added
+         *
+         * @param string $name
+         * @return boolean 
+         * @static 
+         */ 
+        public static function hasCollector($name)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::hasCollector($name);
+        }
+        
+        /**
+         * Returns a data collector
+         *
+         * @param string $name
+         * @return \DebugBar\DataCollectorInterface 
+         * @throws DebugBarException
+         * @static 
+         */ 
+        public static function getCollector($name)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getCollector($name);
+        }
+        
+        /**
+         * Returns an array of all data collectors
+         *
+         * @return \DebugBar\array[DataCollectorInterface] 
+         * @static 
+         */ 
+        public static function getCollectors()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getCollectors();
+        }
+        
+        /**
+         * Sets the request id generator
+         *
+         * @param \DebugBar\RequestIdGeneratorInterface $generator
+         * @return $this 
+         * @static 
+         */ 
+        public static function setRequestIdGenerator($generator)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::setRequestIdGenerator($generator);
+        }
+        
+        /**
+         * 
+         *
+         * @return \DebugBar\RequestIdGeneratorInterface 
+         * @static 
+         */ 
+        public static function getRequestIdGenerator()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getRequestIdGenerator();
+        }
+        
+        /**
+         * Returns the id of the current request
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getCurrentRequestId()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getCurrentRequestId();
+        }
+        
+        /**
+         * Sets the storage backend to use to store the collected data
+         *
+         * @param \DebugBar\StorageInterface $storage
+         * @return $this 
+         * @static 
+         */ 
+        public static function setStorage($storage = null)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::setStorage($storage);
+        }
+        
+        /**
+         * 
+         *
+         * @return \DebugBar\StorageInterface 
+         * @static 
+         */ 
+        public static function getStorage()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getStorage();
+        }
+        
+        /**
+         * Checks if the data will be persisted
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function isDataPersisted()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::isDataPersisted();
+        }
+        
+        /**
+         * Sets the HTTP driver
+         *
+         * @param \DebugBar\HttpDriverInterface $driver
+         * @return $this 
+         * @static 
+         */ 
+        public static function setHttpDriver($driver)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::setHttpDriver($driver);
+        }
+        
+        /**
+         * Returns the HTTP driver
+         * 
+         * If no http driver where defined, a PhpHttpDriver is automatically created
+         *
+         * @return \DebugBar\HttpDriverInterface 
+         * @static 
+         */ 
+        public static function getHttpDriver()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getHttpDriver();
+        }
+        
+        /**
+         * Returns collected data
+         * 
+         * Will collect the data if none have been collected yet
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getData()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getData();
+        }
+        
+        /**
+         * Returns an array of HTTP headers containing the data
+         *
+         * @param string $headerName
+         * @param integer $maxHeaderLength
+         * @return array 
+         * @static 
+         */ 
+        public static function getDataAsHeaders($headerName = 'phpdebugbar', $maxHeaderLength = 4096, $maxTotalHeaderLength = 250000)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getDataAsHeaders($headerName, $maxHeaderLength, $maxTotalHeaderLength);
+        }
+        
+        /**
+         * Sends the data through the HTTP headers
+         *
+         * @param bool $useOpenHandler
+         * @param string $headerName
+         * @param integer $maxHeaderLength
+         * @return $this 
+         * @static 
+         */ 
+        public static function sendDataInHeaders($useOpenHandler = null, $headerName = 'phpdebugbar', $maxHeaderLength = 4096)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::sendDataInHeaders($useOpenHandler, $headerName, $maxHeaderLength);
+        }
+        
+        /**
+         * Stacks the data in the session for later rendering
+         *
+         * @static 
+         */ 
+        public static function stackData()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::stackData();
+        }
+        
+        /**
+         * Checks if there is stacked data in the session
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function hasStackedData()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::hasStackedData();
+        }
+        
+        /**
+         * Returns the data stacked in the session
+         *
+         * @param boolean $delete Whether to delete the data in the session
+         * @return array 
+         * @static 
+         */ 
+        public static function getStackedData($delete = true)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getStackedData($delete);
+        }
+        
+        /**
+         * Sets the key to use in the $_SESSION array
+         *
+         * @param string $ns
+         * @return $this 
+         * @static 
+         */ 
+        public static function setStackDataSessionNamespace($ns)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::setStackDataSessionNamespace($ns);
+        }
+        
+        /**
+         * Returns the key used in the $_SESSION array
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getStackDataSessionNamespace()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::getStackDataSessionNamespace();
+        }
+        
+        /**
+         * Sets whether to only use the session to store stacked data even
+         * if a storage is enabled
+         *
+         * @param boolean $enabled
+         * @return $this 
+         * @static 
+         */ 
+        public static function setStackAlwaysUseSessionStorage($enabled = true)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::setStackAlwaysUseSessionStorage($enabled);
+        }
+        
+        /**
+         * Checks if the session is always used to store stacked data
+         * even if a storage is enabled
+         *
+         * @return boolean 
+         * @static 
+         */ 
+        public static function isStackAlwaysUseSessionStorage()
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::isStackAlwaysUseSessionStorage();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetSet($key, $value)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::offsetSet($key, $value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetGet($key)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::offsetGet($key);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetExists($key)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::offsetExists($key);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function offsetUnset($key)
+        {
+            //Method inherited from \DebugBar\DebugBar            
+            return \Barryvdh\Debugbar\LaravelDebugbar::offsetUnset($key);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -14458,6 +15594,12 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
+
+    class PhpSms extends \Toplan\PhpSms\Facades\Sms {}
+
+    class SmsManager extends \Toplan\Sms\Facades\SmsManager {}
+
+    class Debugbar extends \Barryvdh\Debugbar\Facade {}
  
 }
 

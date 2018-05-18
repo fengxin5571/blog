@@ -18,7 +18,7 @@ class PostController extends Controller
 
     //文章列表
     public function list(){
-        $posts=Post::orderBy("created_at",'desc')->withCount(['comments','zans'])->paginate(10);
+        $posts=Post::orderBy("created_at",'desc')->withCount(['comments','zans'])->with('user')->paginate(10);
 
         return view('posts.index',compact('posts'));
     }

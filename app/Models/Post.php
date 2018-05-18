@@ -23,6 +23,7 @@ class Post extends Authenticatable
         'title','content',"user_id",'status'
     ];
     protected $dates=['deleted_at'];
+
     public function searchableAs()
     {
         return 'post';
