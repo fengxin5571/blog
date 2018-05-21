@@ -67,5 +67,12 @@ Route::prefix('topic')->group(function (){
 //通知
 Route::get('/notices','NoticeController@index')->name('notices');
 
+//api
+Route::prefix('api')->group(function (){
+    Route::get('/users',function (){
+        return new \App\Http\Resources\Users(\App\Models\User::paginate(2));
+    });
+});
+
 
 
