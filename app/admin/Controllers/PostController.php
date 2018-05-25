@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller{
     public function index(){
+
         if(Gate::forUser(Auth::guard('admin')->user())->allows('post')) {
             $posts = Post::withoutGlobalScope('scuess_status')->where('status', 0)->orderBy('created_at', 'esc')->paginate(5);
             $flag = 0;
