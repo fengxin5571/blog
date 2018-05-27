@@ -13,12 +13,9 @@ use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller{
     public function index(){
-
-        if(Gate::forUser(Auth::guard('admin')->user())->allows('post')) {
-            $posts = Post::withoutGlobalScope('scuess_status')->where('status', 0)->orderBy('created_at', 'esc')->paginate(5);
-            $flag = 0;
-            return view('admin.posts.index', compact('posts', 'flag'));
-        }
+        $posts = Post::withoutGlobalScope('scuess_status')->where('status', 0)->orderBy('created_at', 'esc')->paginate(5);
+        $flag = 0;
+        return view('admin.posts.index', compact('posts', 'flag'));
     }
     //文章审核
     public function status(Request $request,$post_id){
@@ -39,11 +36,9 @@ class PostController extends Controller{
     }
     //通过文章
     public  function scuess_status(){
-        if(Gate::forUser(Auth::guard('admin')->user())->allows('post')) {
-            $posts = Post::paginate(5);
-            $flag = 1;
-            return view('admin.posts.index', compact('posts', 'flag'));
-        }
+        $posts = Post::paginate(5);
+        $flag = 1;
+        return view('admin.posts.index', compact('posts', 'flag'));
     }
     //未通过文章
     public function unscuess_status(){
