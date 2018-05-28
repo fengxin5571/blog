@@ -38,7 +38,7 @@ class PostController extends Controller
             'content'=>"required",
 
         ]);
-        $data['user_id']=1;
+        $data['user_id']=Auth::id();
         Post::create($data);
         return redirect()->route("posts.list");
     }
@@ -64,7 +64,7 @@ class PostController extends Controller
     }
     //图片上传
     public function upload(Request $request){
-        $path=$request->file('wangEditorH5File')->store(1);
+        $path=$request->file('wangEditorH5File')->store(Auth::id());
         return asset('storage/'.$path);
     }
     //增加评论
