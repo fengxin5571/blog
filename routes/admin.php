@@ -62,7 +62,11 @@ Route::prefix('admin')->group(function (){
             //增加通知
             Route::match(['get','post'],'/notices/add','NoticeController@add')->name('admin.notices.add');
         });
-
+        Route::group(['middleware'=>'can:seckill'],function(){
+            //秒杀管理
+            Route::get('/seckill/setting','SeckillController@setting')->name('admin.seckill.setting');
+            Route::post('/seckill/setting','SeckillController@setting')->name('admin.seckill.setting');
+        });
 
     });
 

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Carbon\Carbon;
 use Closure;
+use Illuminate\Support\Facades\Cache;
 
 class seckillTime
 {
@@ -16,7 +17,8 @@ class seckillTime
      */
     public function handle($request, Closure $next)
     {
-        if(!Carbon::now()->between(Carbon::create(2018,6,4),Carbon::create(2018,12,12))){
+        $secktime=Cache::get('seckill');
+        if(!Carbon::now()->between(new Carbon($secktime[0]),new Carbon($secktime[1]))){
             return redirect()->route('posts.list')->withErrors('对不起，秒杀还没开始');
         }
         return $next($request);

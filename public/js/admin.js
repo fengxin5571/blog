@@ -65,3 +65,4 @@ $(".resource-delete").click(function () {
         }
     });
 });
+$('#reservation').daterangepicker();

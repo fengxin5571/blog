@@ -44,5 +44,16 @@
                 </a>
             </li>
             @endcan
+            @can('seckill')
+            <li class="active treeview">
+                <a href="">
+                    <i class="fa fa-cart-plus"></i> <span>秒杀管理</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('admin.seckill.setting')}}"><i class="fa fa-circle-o"></i>秒杀设置</a></li>
+
+                </ul>
+            </li>
+            @endcan
     </ul>
 </section>

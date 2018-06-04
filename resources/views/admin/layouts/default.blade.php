@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="/adminlte/bower_components/jvectormap/jquery-jvectormap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/adminlte/dist/css/AdminLTE.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="/adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/adminlte/dist/css/skins/_all-skins.min.css">
@@ -62,6 +66,11 @@
 <script src="/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- date-range-picker -->
+<script src="/adminlte/bower_components/moment/min/moment.min.js"></script>
+<script src="/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="/adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" class=""></script>
 <!-- FastClick -->
 <script src="/adminlte/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
