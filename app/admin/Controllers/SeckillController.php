@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Cache;
 
 class  SeckillController extends Controller{
     //秒杀管理
+    public function index(){
+        return view('admin.seckill.index');
+    }
+    //秒杀设置
     public function setting(Request $request){
         if($request->isMethod('post')){
            $date=explode('-',$request->date);

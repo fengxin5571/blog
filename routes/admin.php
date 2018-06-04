@@ -64,6 +64,7 @@ Route::prefix('admin')->group(function (){
         });
         Route::group(['middleware'=>'can:seckill'],function(){
             //秒杀管理
+            Route::get('/seckill','SeckillController@index')->name('admin.seckill.index');
             Route::get('/seckill/setting','SeckillController@setting')->name('admin.seckill.setting');
             Route::post('/seckill/setting','SeckillController@setting')->name('admin.seckill.setting');
         });

@@ -46,7 +46,7 @@
             @endcan
             @can('seckill')
             <li class="active treeview">
-                <a href="">
+                <a href="{{route('admin.seckill.index')}}">
                     <i class="fa fa-cart-plus"></i> <span>秒杀管理</span>
                 </a>
                 <ul class="treeview-menu">
