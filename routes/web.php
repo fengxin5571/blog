@@ -73,6 +73,9 @@ Route::prefix('api')->group(function (){
         return new \App\Http\Resources\Users(\App\Models\User::paginate(2));
     });
 });
-
+//秒杀
+Route::group(['middleware'=>['auth','seckill']],function(){
+    Route::get('/seckill','SeckillController@index')->name('seckill');
+});
 
 
