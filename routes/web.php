@@ -76,6 +76,8 @@ Route::prefix('api')->group(function (){
 //秒杀
 Route::group(['middleware'=>['auth','seckill']],function(){
     Route::get('/seckill','SeckillController@index')->name('seckill');
+
 });
+
 
 

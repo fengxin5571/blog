@@ -44,6 +44,17 @@
                 </a>
             </li>
             @endcan
+            @can('goods')
+            <li class="active treeview">
+                <a href="">
+                    <i class="fa fa-dashboard"></i> <span>商品管理</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('admin.goods')}}"><i class="fa fa-circle-o"></i>商品列表</a></li>
+
+                </ul>
+            </li>
+            @endcan
             @can('seckill')
             <li class="active treeview">
                 <a href="{{route('admin.seckill.index')}}">

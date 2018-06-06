@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/adminlte/bower_components/jvectormap/jquery-jvectormap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/adminlte/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/wangEditor.min.css">
     <!-- daterange picker -->
     <link rel="stylesheet" href="/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <!-- bootstrap datepicker -->
@@ -89,5 +90,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/adminlte/dist/js/demo.js"></script>
 <script src="/js/admin.js"></script>
+<script type="text/javascript" src="/js/wangEditor.min.js"></script>
+<script src="/js/ylaravel.js"></script>
 </body>
 </html>

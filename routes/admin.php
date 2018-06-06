@@ -62,6 +62,12 @@ Route::prefix('admin')->group(function (){
             //增加通知
             Route::match(['get','post'],'/notices/add','NoticeController@add')->name('admin.notices.add');
         });
+        Route::group(['middleware'=>'can:goods'],function(){
+            //商品管理
+            Route::get('/goods','GoodsController@index')->name('admin.goods');
+            //增加商品
+            Route::match(['get','post'],'/goods/add','GoodsController@addGood')->name('admin.goods.add');
+        });
         Route::group(['middleware'=>'can:seckill'],function(){
             //秒杀管理
             Route::get('/seckill','SeckillController@index')->name('admin.seckill.index');
