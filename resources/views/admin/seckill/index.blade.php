@@ -23,7 +23,7 @@
 
                                 <tr>
                                     <td>1</td>
-                                    <td>秒杀时间</td>
+                                    <td>秒杀总时间</td>
                                     <td>
                                        {{implode("-",Cache::get('seckill'))}}
                                     </td>
