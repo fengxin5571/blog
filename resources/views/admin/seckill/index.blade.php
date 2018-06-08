@@ -12,6 +12,7 @@
                         <h3 class="box-title">秒杀信息</h3>
                     </div>
                     <a type="button" class="btn " href="{{route('admin.seckill.setting')}}" >秒杀设置</a>
+                    <a type="button" class="btn " href="{{route('admin.seckill.add')}}" >新增秒杀</a>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">
