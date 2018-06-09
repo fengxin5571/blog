@@ -53,3 +53,21 @@ editor.config.uploadHeaders = {
 
 editor.create();
 
+function seckill(good_id,active_id) {
+    if(!good_id){
+        return ;
+    }
+    $.ajax({
+        url:'/seckill/buy',
+        method:"post",
+        data:{'goods':{0:{'id':good_id,'num':1}},'active_id':active_id},
+        dataType:'json',
+        success:function (data) {
+            if(data.error){
+                alert(data.text);
+                return;
+            }
+            alert(data.text);
+        }
+    });
+}

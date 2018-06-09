@@ -9,6 +9,7 @@ namespace  App\admin\Controllers;
 
 use App\Models\Active;
 use App\Models\Good;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -16,7 +17,8 @@ use Illuminate\Support\Facades\Cache;
 class  SeckillController extends Controller{
     //秒杀管理
     public function index(){
-        return view('admin.seckill.index');
+        $actives=Active::all();
+        return view('admin.seckill.index',compact('actives'));
     }
     //秒杀设置
     public function setting(Request $request){
@@ -60,5 +62,10 @@ class  SeckillController extends Controller{
         }
         $goods=Good::all();
         return view('admin.seckill.add',compact('goods'));
+    }
+    //活动订单
+    public function order(){
+        $orders=Order::with(['user','active'])->orderBy('created_at','desc')->paginate(10);
+        return view('admin.seckill.order',compact('orders'));
     }
 }

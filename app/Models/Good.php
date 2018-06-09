@@ -21,4 +21,16 @@ class Good extends Model
     public function active(){
         return $this->belongsTo(Active::class,'active_id','id');
     }
+    //验证库存
+    public function checkNum($num){
+        if($this->num_total<$num){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    //更新库存
+    public function updateNum($num){
+       return $this->update(['num_total'=>$this->num_total-$num]);
+    }
 }

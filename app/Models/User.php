@@ -66,4 +66,15 @@ class User extends Authenticatable
     public function addNotice($notice){
         return $this->notices()->save($notice);
     }
+    //用户订单
+    public function Orders(){
+        return $this->hasMany(Order::class,'uid','id');
+    }
+    //用户是否购买过当前活动商品
+    public function activeGood($active_id){
+        $order=User::whereHas('Orders',function ($query) use ($active_id){
+            $query->where([['active_id','=',$active_id],['status','<',5]]);
+        })->first();
+        return $order;
+    }
 }

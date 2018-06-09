@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Active extends Model
@@ -18,5 +19,9 @@ class Active extends Model
             $good->price_discount=$price_discount;
         }
         return $this->Goods()->saveMany($goods);
+    }
+    //验证活动是否开始
+    public function checkTime(){
+        return Carbon::now()->between(Carbon::createFromTimestamp($this->time_begin),Carbon::createFromTimestamp($this->time_end));
     }
 }

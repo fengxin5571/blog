@@ -21,15 +21,36 @@
                                 <th>名称</th>
                                 <th>值</th>
                             </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>秒杀总时间</td>
-                                    <td>
-                                       {{implode("-",Cache::get('seckill'))}}
-                                    </td>
-                                </tr>
-
+                            <tr>
+                                <td>1</td>
+                                <td>秒杀总时间</td>
+                                <td>
+                                   {{implode("-",Cache::get('seckill'))}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">秒杀活动</td>
+                            </tr>
+                            @foreach($actives as $active)
+                            <tr>
+                                <td>{{$active->id}}</td>
+                                <td>{{$active->title}}</td>
+                                <td>状态：
+                                @switch($active->status)
+                                    @case (0)
+                                    未上线
+                                    @break
+                                    @case (1)
+                                    已上线
+                                    @break
+                                    @case (2)
+                                    已下线
+                                    @break
+                                @endswitch
+                                </td>
+                                <td>开始时间：{{date('Y-m-d',$active->time_begin)}} - 结束时间：{{date('Y-m-d',$active->time_end)}}</td>
+                            </tr>
+                            @endforeach
                             </tbody></table>
                     </div>
 

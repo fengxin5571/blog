@@ -75,6 +75,7 @@ Route::prefix('admin')->group(function (){
             Route::post('/seckill/setting','SeckillController@setting')->name('admin.seckill.setting');
             //新增秒杀
             Route::match(['get','post'],'/seckill/add','SeckillController@add')->name('admin.seckill.add');
+            Route::get('/seckill/order','SeckillController@order')->name('admin.seckill.order');
         });
 
     });
