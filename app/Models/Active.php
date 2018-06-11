@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Redis;
 
 class Active extends Model
 {
@@ -16,6 +17,7 @@ class Active extends Model
     //增加所属商品
     public function addGoods($goods,$price_discount){
         foreach ($goods as $good){
+            Redis::set('st_g_'.$good->id,$good->id);
             $good->price_discount=$price_discount;
         }
         return $this->Goods()->saveMany($goods);

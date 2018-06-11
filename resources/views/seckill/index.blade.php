@@ -11,7 +11,7 @@
             @if($good->active&&$good->active->status==1)
             活动：{{$good->active->title}}<br>
             优惠价：{{$good->price_discount}}<br>
-            <a href="javascrip:;" onclick="seckill({{$good->id}},{{$good->active->id}})">立即抢购</a> <br/>
+            <a href="javascrip:;" onclick="check({{$good->id}},{{$good->active->id}})">立即抢购</a> <br/>
             @endif
             商品：{{$good->title}}<br/>
             原价：{{$good->price_normal}}<br/>

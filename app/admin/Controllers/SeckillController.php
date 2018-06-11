@@ -13,6 +13,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class  SeckillController extends Controller{
     //秒杀管理
@@ -55,7 +56,13 @@ class  SeckillController extends Controller{
            //dd(Good::where('id',$value['goods'])->update(['price_discount'=>$value['price_discount']]));
            $active=Active::create($date);
            if($active){
+               Redis::mset(array(
+                   'st_a_'.$active->id=>$active->status,
+                   'st_a_'.$active->id."_time_begin"=>$active->time_begin,
+                   'st_a_'.$active->id."_time_end"=>$active->time_end,
+               ));
                $active->addGoods(Good::find($value['goods']),$value['price_discount']);
+
                return redirect()->route('admin.seckill.index');
            }
 
@@ -65,7 +72,7 @@ class  SeckillController extends Controller{
     }
     //活动订单
     public function order(){
-        $orders=Order::with(['user','active'])->orderBy('created_at','desc')->paginate(10);
+        $orders=Order::with(['user','active'])->orderBy('created_at','desc')->has('active')->has('user')->paginate(10);
         return view('admin.seckill.order',compact('orders'));
     }
 }

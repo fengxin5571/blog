@@ -53,14 +53,14 @@ editor.config.uploadHeaders = {
 
 editor.create();
 
-function seckill(good_id,active_id) {
+function seckill(good_id,active_id,st_data) {
     if(!good_id){
         return ;
     }
     $.ajax({
         url:'/seckill/buy',
         method:"post",
-        data:{'goods':{0:{'id':good_id,'num':1}},'active_id':active_id},
+        data:{'goods':{0:{'id':good_id,'num':1}},'active_id':active_id,'st_data':st_data},
         dataType:'json',
         success:function (data) {
             if(data.error){
@@ -68,6 +68,22 @@ function seckill(good_id,active_id) {
                 return;
             }
             alert(data.text);
+        }
+    });
+}
+function check(good_id,active_id) {
+    $.ajax({
+        url:'/seckill/check',
+        method:"post",
+        data:{aid:active_id,gid:good_id},
+        dataType:'json',
+        success:function (data) {
+            if(data.error){
+                alert(data.text);
+                return;
+            }
+            var st_data=data.data;
+            seckill(good_id,active_id,st_data);
         }
     });
 }

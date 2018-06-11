@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use PHPUnit\Framework\Exception;
 
 class SeckillController extends Controller
@@ -22,17 +23,23 @@ class SeckillController extends Controller
         if($request->isMethod('post')){
             $this->validate($request,[
                 'goods'=>'required|array',
-                'active_id'=>'required|numeric'
+                'active_id'=>'required|numeric',
+                'st_data'=>'required'
             ]);
-            if(!Auth::user()){//判断是否登录
+            if(!Auth::check()){//判断是否登录
                 return response()->json(['error'=>1,'text'=>'未登录']);
             }
+
             $active_id=$request->active_id;
+            $st_data=$request->st_data;
+            if(!$st_data['time']<time()&&!$st_data<time()-300&&$st_data['ip']!=$request->getClientIp()){
+                return response()->json(['error'=>1,'text'=>'购买ip或者已超时']);
+            }
             if(Auth::user()->activeGood($active_id)){//判断用户是否已经购买过了
                 return response()->json(['error'=>1,'text'=>'请不要重复提交订单']);
             }
             $active=Active::find($active_id);
-            if(!$active||!$active->checkTime()){//验证活动信息
+            if(!$active_id||!$this->checkTime($active_id)){//验证活动信息
                 return response()->json(['error'=>1,'text'=>'活动还没有开始']);
             }
             $num_total=$price_total=$price_discount=0;
@@ -79,5 +86,37 @@ class SeckillController extends Controller
             DB::commit();
             return response()->json(['error'=>0,'text'=>'成功']);
         }
+    }
+    //验证活动状态
+    public function checkSeckill(Request $request){
+       if($request->isMethod("post")){
+            $active_id=$request->aid;
+            $good_id=$request->gid;
+            $data=Redis::mget(array(
+                'st_a_'.$active_id,
+                'st_g_'.$good_id
+            ));
+            if($data[0]&&$data[1]){//验证通过
+                $info=array(
+                    'time'=>time(),
+                    'ip'=>$request->getClientIp()
+                );
+                return response()->json(['error'=>0,'text'=>'通过','data'=>$info]);
+            }
+            return response()->json(['error'=>1,'text'=>'活动参数验证异常']);
+
+       }
+       return response()->json(['error'=>1,'text'=>'非法请求']);
+    }
+    //验证时间
+    private function checkTime($active_id){
+        $data=Redis::mget(array(
+            'st_a_'.$active_id."_time_begin",
+            'st_a_'.$active_id."_time_end",
+        ));
+        if($data&&$data[0]&&$data[1]){
+            return Carbon::now()->between(Carbon::createFromTimestamp($data[0]),Carbon::createFromTimestamp($data[1]));
+        }
+        return false;
     }
 }
