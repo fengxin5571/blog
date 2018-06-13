@@ -31,6 +31,6 @@ class Good extends Model
     }
     //更新库存
     public function updateNum($num){
-       return $this->update(['num_total'=>$this->num_total-$num]);
+       return $this->update(['num_total'=>$this->num_total+$num]);
     }
 }

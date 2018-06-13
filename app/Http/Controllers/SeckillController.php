@@ -17,8 +17,12 @@ class SeckillController extends Controller
     //秒杀页面
     public function index(){
         $goods=Good::with('active')->get();
+        foreach ($goods as $good){
+            Redis::hset('info_g_'.$good->id,'num_left',$good->num_total);
+        }
         return view('seckill.index',compact('goods'));
     }
+    //秒杀
     public function seckillBuy(Request $request){
         if($request->isMethod('post')){
             $this->validate($request,[
@@ -29,43 +33,51 @@ class SeckillController extends Controller
             if(!Auth::check()){//判断是否登录
                 return response()->json(['error'=>1,'text'=>'未登录']);
             }
-
             $active_id=$request->active_id;
             $st_data=$request->st_data;
-            if(!$st_data['time']<time()&&!$st_data<time()-300&&$st_data['ip']!=$request->getClientIp()){
+            if(!$st_data['time']<time()&&!$st_data>time()-300&&$st_data['ip']!=$request->getClientIp()){
                 return response()->json(['error'=>1,'text'=>'购买ip或者已超时']);
             }
+
             if(Auth::user()->activeGood($active_id)){//判断用户是否已经购买过了
                 return response()->json(['error'=>1,'text'=>'请不要重复提交订单']);
             }
-            $active=Active::find($active_id);
+            // $active=Active::find($active_id);
             if(!$active_id||!$this->checkTime($active_id)){//验证活动信息
                 return response()->json(['error'=>1,'text'=>'活动还没有开始']);
             }
             $num_total=$price_total=$price_discount=0;
+
             DB::beginTransaction();//开启事务，更新库存，创建订单
             try{
                 foreach ($request->goods as $i=>$good){//验证商品信息
-                    $good_info=Good::find($good['id']);
+                    //$good_info=Good::find($good['id']);
+                    $good_data=Redis::hMGet('info_g_'.$good['id'],array('good_info','num_left'));
+                    $good_info=json_decode($good_data[0]);
                     if(!$good_info){
                         return response()->json(['error'=>1,'text'=>'商品信息异常']);
                     }
                     $num=$good['num'];
-                    if(!$good_info->checkNum($num)){//验证商品库存
+                    if($good_info->num_total<$num){//验证商品库存
                         return response()->json(['error'=>1,'text'=>'商品库存不足']);
                     }
-                    if(!$good_info->updateNum($num)){
-                        throw  new Exception('库存更新错误');
+                    $num_left=$this->changeLeftNumCached($good_info->id,0-$num);
+                    if($num_left>=0){
+                        if(!Good::find($good_info->id)->updateNum(0-$num)){
+                            throw  new Exception('库存更新错误');
+                        }
+                        $order_good_info[]=array(
+                            'good'=>$good_info,
+                            'count'=>$num
+                        );
+                        $num_total+=$num;
+                        $good_id=$good_info->id;
+                        $price_total+=$good_info->price_normal*$num;
+                        $price_discount+=$good_info->price_discount*$num;
+                    }else{
+                        Redis::set('st_a_'.$active_id,0);
+                        return response()->json(['error'=>1,'text'=>'商品库存不足']);
                     }
-                    $order_good_info[]=array(
-                        'good'=>$good_info,
-                        'count'=>$num
-                    );
-                    $num_total+=$num;
-                    $good_id=$good_info->id;
-                    $price_total+=$good_info->price_normal*$num;
-                    $price_discount+=$good_info->price_discount*$num;
-
                 }
                 $data['active_id']=$active_id;
                 $data['goods_id']=$good_id;
@@ -84,6 +96,7 @@ class SeckillController extends Controller
                 DB::rollBack();
             }
             DB::commit();
+            Redis::set('u_order_'.Auth::id().'_s_'.$active_id,1);
             return response()->json(['error'=>0,'text'=>'成功']);
         }
     }
@@ -115,8 +128,16 @@ class SeckillController extends Controller
             'st_a_'.$active_id."_time_end",
         ));
         if($data&&$data[0]&&$data[1]){
-            return Carbon::now()->between(Carbon::createFromTimestamp($data[0]),Carbon::createFromTimestamp($data[1]));
+            if(Carbon::now()->between(Carbon::createFromTimestamp($data[0]),Carbon::createFromTimestamp($data[1]))){
+               return true;
+            }
+
         }
+        Redis::set('st_a_'.$active_id,0);
         return false;
+    }
+    //减少库存
+    private function changeLeftNumCached($good_id,$num){
+       return  Redis::hincrby('info_g_'.$good_id,'num_left',$num);
     }
 }

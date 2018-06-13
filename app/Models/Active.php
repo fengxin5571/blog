@@ -18,6 +18,7 @@ class Active extends Model
     public function addGoods($goods,$price_discount){
         foreach ($goods as $good){
             Redis::set('st_g_'.$good->id,$good->id);
+            Redis::hmset('info_g_'.$good->id,array('good_info'=>$good,'num_left'=>$good->num_total));
             $good->price_discount=$price_discount;
         }
         return $this->Goods()->saveMany($goods);
