@@ -72,7 +72,7 @@ class  SeckillController extends Controller{
     }
     //活动订单
     public function order(){
-        $orders=Order::with(['user','active'])->orderBy('created_at','desc')->has('active')->has('user')->paginate(10);
+        $orders=Order::with(['user','active'])->orderBy('created_at','desc')->has('active')->has('user')->paginate(2);
         return view('admin.seckill.order',compact('orders'));
     }
 }
