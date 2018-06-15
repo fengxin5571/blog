@@ -10,6 +10,7 @@ namespace  App\admin\Controllers;
 use App\Models\Active;
 use App\Models\Good;
 use App\Models\Order;
+use App\Models\Question;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -74,5 +75,26 @@ class  SeckillController extends Controller{
     public function order(){
         $orders=Order::with(['user','active'])->orderBy('created_at','desc')->has('active')->has('user')->paginate(2);
         return view('admin.seckill.order',compact('orders'));
+    }
+    //问答列表
+    public function question(){
+        $quesions=Question::with('question_answers')->paginate(10);
+        return view('admin.seckill.question',compact('quesions'));
+    }
+    //新增问答描述
+    public function addQuestion(Request $request){
+        if($request->isMethod('post')){//是否提交
+            $data=$this->validate($request,[
+                'question'=>'required|min:3|string'
+            ],[
+                ':question.required'=>':attribute 不能为空'
+            ],[
+                'question'=>'问题描述'
+                ]);
+            Question::create($data);
+            return redirect()->route('admin.seckill.question');
+
+        }
+        return view('admin.seckill.addQuestion');
     }
 }

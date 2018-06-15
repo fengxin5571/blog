@@ -76,6 +76,10 @@ Route::prefix('admin')->group(function (){
             //新增秒杀
             Route::match(['get','post'],'/seckill/add','SeckillController@add')->name('admin.seckill.add');
             Route::get('/seckill/order','SeckillController@order')->name('admin.seckill.order');
+            //秒杀问答
+            Route::get('/seckill/question','SeckillController@question')->name('admin.seckill.question');
+            //新增问题描述
+            Route::match(['get','post'],'/seckill/question/add','SeckillController@addQuestion')->name('admin.seckill.question.add');
         });
 
     });

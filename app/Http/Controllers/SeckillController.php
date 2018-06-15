@@ -35,6 +35,7 @@ class SeckillController extends Controller
             }
             $active_id=$request->active_id;
             $st_data=$request->st_data;
+            //验证接口传来的数据是否匹配
             if(!$st_data['time']<time()&&!$st_data>time()-300&&$st_data['ip']!=$request->getClientIp()){
                 return response()->json(['error'=>1,'text'=>'购买ip或者已超时']);
             }

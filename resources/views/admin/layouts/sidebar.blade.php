@@ -63,6 +63,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{route('admin.seckill.setting')}}"><i class="fa fa-circle-o"></i>秒杀设置</a></li>
                     <li><a href="{{route('admin.seckill.order')}}"><i class="fa fa-circle-o"></i>订单管理</a></li>
+                    <li><a href="{{route('admin.seckill.question')}}"><i class="fa fa-circle-o"></i>秒杀问答</a></li>
                 </ul>
             </li>
             @endcan

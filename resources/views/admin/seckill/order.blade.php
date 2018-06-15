@@ -30,7 +30,7 @@
                             </tr>
                             @foreach($orders as $order)
                             <tr>
-                                <td>1</td>
+                                <td>{{$order->id}}</td>
                                 <td>{{$order->active->title}}</td>
                                 <td>{{$order->user->name}}</td>
                                 <td>{{$order->num_total}}</td>
@@ -45,6 +45,7 @@
                                 </td>
                                 <td>
                                     @foreach(json_decode($order->goods_info) as $good)
+
                                         <li>
                                             <label>{{$good->good->title}}</label><br>
                                             <img src="/{{$good->good->img}}" style="width:150px"><br>
