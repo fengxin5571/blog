@@ -80,6 +80,8 @@ Route::prefix('admin')->group(function (){
             Route::get('/seckill/question','SeckillController@question')->name('admin.seckill.question');
             //新增问题描述
             Route::match(['get','post'],'/seckill/question/add','SeckillController@addQuestion')->name('admin.seckill.question.add');
+            //新增问题项
+            Route::match(['get','post'],'/seckill/answer/add','SeckillController@addAnswer')->name('admin.seckill.answer.add');
         });
 
     });

@@ -97,4 +97,20 @@ class  SeckillController extends Controller{
         }
         return view('admin.seckill.addQuestion');
     }
+    //新增问题项
+    public function addAnswer(Request $request){
+        if($request->isMethod('post')){
+            $this->validate($request,[
+                'question'=>'required',
+                'answers.*.question_title'=>'required',
+                'answers.*.question_answer'=>'required',
+            ]);
+            $question=Question::find($request->question);
+            $answers=$request->answers;
+            $question->addAnswers($answers);
+            return redirect()->route('admin.seckill.question');
+        }
+        $questions=Question::all();
+        return view('admin.seckill.answer_add',compact('questions'));
+    }
 }

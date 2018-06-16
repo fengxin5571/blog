@@ -12,7 +12,7 @@
                         <h3 class="box-title">秒杀问答</h3>
                     </div>
                     <a type="button" class="btn " href="{{route('admin.seckill.question.add')}}" >新增描述</a>
-                    <a type="button" class="btn " href="{{route('admin.seckill.add')}}" >新增问答</a>
+                    <a type="button" class="btn " href="{{route('admin.seckill.answer.add')}}" >新增问答</a>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">

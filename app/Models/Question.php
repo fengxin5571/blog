@@ -12,4 +12,8 @@ class Question extends Model
     public function question_answers(){
         return $this->hasMany(QuestionAnswer::class,'question_id','id');
     }
+    //添加所属的问题项
+    public function addAnswers($answers){
+        return $this->question_answers()->createMany($answers);
+    }
 }
