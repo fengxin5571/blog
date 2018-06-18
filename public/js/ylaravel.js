@@ -53,14 +53,41 @@ editor.config.uploadHeaders = {
 
 editor.create();
 
-function seckill(good_id,active_id,st_data) {
+function get_question(good_id,active_id,st_data) {
     if(!good_id){
+        return ;
+    }
+    $.ajax({
+        url:'/seckill/question',
+        method:'post',
+        dataType:'json',
+        success:function (data) {
+            if(data.error){
+                alert(data.text);
+                return;
+            }
+            var html="";
+            $.each(data.data.answers,function(i,v){
+                html += '<label><input type="radio" value="' + v.id+ '" name="answer" /> ' + v.question_answer+ '</label><br/>';
+            });
+            var obj=JSON.stringify(st_data);
+            $("#question_info").html('<div class="modal-body">' + data.data.title + '[' + data.data.ask + ']</div>'
+                + '<div class="modal-body">' + html + '</div>'
+                + '<div class="modal-footer"><input type="button" value="提交订单" onclick=\'seckill('+good_id+','+active_id+','+obj+')\'/></div>');
+            $('#myModal').modal();
+        }
+    });
+
+}
+function seckill(good_id,active_id,st_data){
+    var answer_id=$('input[name="answer"]:checked').val();
+    if(!answer_id){
         return ;
     }
     $.ajax({
         url:'/seckill/buy',
         method:"post",
-        data:{'goods':{0:{'id':good_id,'num':1}},'active_id':active_id,'st_data':st_data},
+        data:{'goods':{0:{'id':good_id,'num':1}},'active_id':active_id,'st_data':st_data,'answer_id':answer_id},
         dataType:'json',
         success:function (data) {
             if(data.error){
@@ -70,7 +97,9 @@ function seckill(good_id,active_id,st_data) {
             alert(data.text);
         }
     });
+    $('#myModal').modal('hide');
 }
+//秒杀购买
 function check(good_id,active_id) {
     $.ajax({
         url:'/seckill/check',
@@ -83,7 +112,7 @@ function check(good_id,active_id) {
                 return;
             }
             var st_data=data.data;
-            seckill(good_id,active_id,st_data);
+            get_question(good_id,active_id,st_data);
         }
     });
 }

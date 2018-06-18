@@ -16,4 +16,8 @@ class Question extends Model
     public function addAnswers($answers){
         return $this->question_answers()->createMany($answers);
     }
+    //获取随机问题
+    public function randQuestion(){
+        return $this->question_answers->random();
+    }
 }

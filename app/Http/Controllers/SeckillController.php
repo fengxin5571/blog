@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Active;
 use App\Models\Good;
 use App\Models\Order;
+use App\Models\Question;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
 use PHPUnit\Framework\Exception;
 
 class SeckillController extends Controller
@@ -28,18 +30,23 @@ class SeckillController extends Controller
             $this->validate($request,[
                 'goods'=>'required|array',
                 'active_id'=>'required|numeric',
-                'st_data'=>'required'
+                'st_data'=>'required',
+                'answer_id'=>'required'
             ]);
             if(!Auth::check()){//判断是否登录
                 return response()->json(['error'=>1,'text'=>'未登录']);
             }
             $active_id=$request->active_id;
             $st_data=$request->st_data;
+            $answer_id=$request->answer_id;
+            $success_answer_id=Redis::get('q_a_'.Auth::id());
             //验证接口传来的数据是否匹配
             if(!$st_data['time']<time()&&!$st_data>time()-300&&$st_data['ip']!=$request->getClientIp()){
                 return response()->json(['error'=>1,'text'=>'购买ip或者已超时']);
             }
-
+            if(!$answer_id||$success_answer_id!=$answer_id){
+                return response()->json(['error'=>1,'text'=>'问答验证错误']);
+            }
             if(Auth::user()->activeGood($active_id)){//判断用户是否已经购买过了
                 return response()->json(['error'=>1,'text'=>'请不要重复提交订单']);
             }
@@ -140,5 +147,17 @@ class SeckillController extends Controller
     //减少库存
     private function changeLeftNumCached($good_id,$num){
        return  Redis::hincrby('info_g_'.$good_id,'num_left',$num);
+    }
+    //秒杀问答
+    public function question(){
+        $max_id=Question::orderBy('created_at','desc')->first()->id;
+        $question=Question::find(rand(1,$max_id));
+        if($question){
+            $quesion_answer=$question->randQuestion();
+            $data=['title'=>$question->question,'ask'=>$quesion_answer->question_title,'answers'=>$question->question_answers->random(4)->toArray()];
+            Redis::set('q_a_'.Auth::id(),$quesion_answer->id);
+            return response()->json(['error'=>0,'data'=>$data]);
+        }
+        return response()->json(['error'=>1,'text'=>'秒杀问答获取异常']);
     }
 }

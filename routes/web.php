@@ -75,9 +75,13 @@ Route::prefix('api')->group(function (){
 });
 //秒杀
 Route::group(['middleware'=>['auth','seckill']],function(){
-    Route::post('seckill/check','SeckillController@checkSeckill')->name('seckill.check');
     Route::get('/seckill','SeckillController@index')->name('seckill');
+    //秒杀验证接口
+    Route::post('/seckill/check','SeckillController@checkSeckill')->name('seckill.check');
+    //秒杀问答接口
+    Route::post('/seckill/question','SeckillController@question')->name('seckill.question');
     Route::post('/seckill/buy','SeckillController@seckillBuy')->name('seckill.buy');
+
 });
 
 

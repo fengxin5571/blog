@@ -11,6 +11,7 @@ use App\Models\Active;
 use App\Models\Good;
 use App\Models\Order;
 use App\Models\Question;
+use App\Models\QuestionAnswer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -107,10 +108,18 @@ class  SeckillController extends Controller{
             ]);
             $question=Question::find($request->question);
             $answers=$request->answers;
+//            if($question->question_answers()->count()>=4){
+//                return redirect()->route('admin.seckill.answer.add')->withErrors('已经添加过了');
+//            }
             $question->addAnswers($answers);
             return redirect()->route('admin.seckill.question');
         }
         $questions=Question::all();
         return view('admin.seckill.answer_add',compact('questions'));
+    }
+    //删除选择项
+    public function delAnswer($answer_id){
+        QuestionAnswer::destroy($answer_id);
+
     }
 }

@@ -1,7 +1,6 @@
 @extends('layouts.default')
 @section('title','秒杀')
 @section('content')
-
 <div class="col-sm-8 blog-main">
     <div class="container-fluid">
         @foreach($goods as $good)
@@ -21,5 +20,18 @@
         @endforeach
     </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">秒杀问答</h4>
+                </div>
+                <div id="question_info">
+                </div>
+
+        </div>
+    </div>
+</div>
 @stop

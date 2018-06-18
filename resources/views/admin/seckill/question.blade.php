@@ -28,13 +28,20 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <th colspan="2">问题答案项</th>
+                                <th colspan="3">问题答案项</th>
+                            </tr>
+                            <tr>
+                                <th>id</th>
+                                <th >问题</th>
+                                <th >答案</th>
+                                <th>操作</th>
                             </tr>
                                 @forelse($question->question_answers as $answer)
                                     <tr>
                                         <td>{{$answer->id}}</td>
                                         <td>{{$answer->question_title}}</td>
                                         <td>{{$answer->question_answer}}</td>
+                                        <td><a href="{{route('admin.seckill.answer.del',$answer->id)}}">删除</a></td>
                                     </tr>
                                     @empty
                                     <tr>

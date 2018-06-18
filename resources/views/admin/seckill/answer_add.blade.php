@@ -21,8 +21,9 @@
                                 <div class="form-group @if($errors->first('question'))has-error @endif">
                                     <label for="exampleInputEmail1">问题</label>
                                     <select name="question">
+                                        <option value="">-请选择-</option>
                                         @foreach($questions as $question)
-                                            <option value="">-请选择-</option>
+
                                             <option value="{{$question->id}}">{{$question->question}}</option>
                                         @endforeach
                                     </select>
