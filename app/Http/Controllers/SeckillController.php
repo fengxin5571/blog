@@ -154,7 +154,7 @@ class SeckillController extends Controller
         $question=Question::find(rand(1,$max_id));
         if($question){
             $quesion_answer=$question->randQuestion();
-            $data=['title'=>$question->question,'ask'=>$quesion_answer->question_title,'answers'=>$question->question_answers->random(4)->toArray()];
+            $data=['title'=>$question->question,'ask'=>$quesion_answer->question_title,'answers'=>$question->question_answers()->inRandomOrder()->take(4)->get()->toArray()];
             Redis::set('q_a_'.Auth::id(),$quesion_answer->id);
             return response()->json(['error'=>0,'data'=>$data]);
         }
